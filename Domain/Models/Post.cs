@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace Domain.Models
 {
-    public class User
+    public class Post
     {
         public string Id { get; set; }
-        public string Name { get; set; }
-        public string Login { get; set; }
-        public string Status { get; set; }
+        public DateTime Date { get; set; }
+        public string Content { get; set; }
 
-        public ICollection<Post> Posts { get; set; }
+        public string UserId { get; set; }
+        public User User { get; set; }
+
         public ICollection<Like> Likes { get; set; }
     }
 }
