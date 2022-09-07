@@ -6,16 +6,13 @@ using System.Threading.Tasks;
 
 namespace Domain.Models
 {
-    public class Post
+    public class Comment
     {
         public string Id { get; set; }
         public DateTime Date { get; set; }
         public string Content { get; set; }
 
-        public string UserId { get; set; }
-        public User User { get; set; }
-
-        public ICollection<Like> Likes { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public string PostId { get; set; }
+        public Post Post { get; set; }
     }
 }

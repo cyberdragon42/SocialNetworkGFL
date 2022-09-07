@@ -23,6 +23,26 @@ namespace Domain.Context
                 x.Property(y => y.Id).HasDefaultValueSql("NEWID()");
             });
 
+            modelBuilder.Entity<Comment>(x =>
+            {
+                x.Property(y => y.Id).HasDefaultValueSql("NEWID()");
+                x.HasOne(y => y.Post)
+                    .WithMany(z => z.Comments)
+                    .HasForeignKey(y => y.PostId);
+            });
+
+            modelBuilder.Entity<Subscription>(x =>
+            {
+                x.Property(y => y.Id).HasDefaultValueSql("NEWID()");
+                x.HasOne(y => y.Follower)
+                    .WithMany(z => z.Followings)
+                    .HasForeignKey(y => y.FollowerId);
+
+                x.HasOne(y => y.Following)
+                    .WithMany(z => z.Followers)
+                    .HasForeignKey(y => y.FollowingId);
+            });
+
             modelBuilder.Entity<Like>(x =>
             {
                 x.Property(y => y.Id).HasDefaultValueSql("NEWID()");

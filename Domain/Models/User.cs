@@ -15,5 +15,7 @@ namespace Domain.Models
 
         public ICollection<Post> Posts { get; set; }
         public ICollection<Like> Likes { get; set; }
+        public ICollection<Subscription> Followers { get; set; }
+        public ICollection<Subscription> Followings { get; set; }
     }
 }
