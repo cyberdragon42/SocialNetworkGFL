@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Profile";
+}
+
+@model Domain.Models.User
+
+<div class="text-center">
+    <h1>@Model.Name</h1>
+    <p>@Model.Login</p>
+</div>
+<div>
+    @foreach (var item in Model.Posts)
+    { 
+    <div>
+        <p>@item.Content</p>
+        <p>@item.Date</p>
+        <hr />
+    </div>
+    }
+</div>

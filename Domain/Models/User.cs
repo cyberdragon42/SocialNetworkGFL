@@ -17,5 +17,6 @@ namespace Domain.Models
         public ICollection<Like> Likes { get; set; }
         public ICollection<Subscription> Followers { get; set; }
         public ICollection<Subscription> Followings { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

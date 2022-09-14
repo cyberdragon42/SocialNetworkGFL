@@ -12,6 +12,8 @@ namespace Domain.Context
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         public SocialNetworkContext(DbContextOptions<SocialNetworkContext> options)
         : base(options) { }
@@ -29,6 +31,9 @@ namespace Domain.Context
                 x.HasOne(y => y.Post)
                     .WithMany(z => z.Comments)
                     .HasForeignKey(y => y.PostId);
+                x.HasOne(y => y.User)
+                    .WithMany(z => z.Comments)
+                    .HasForeignKey(y => y.UserId);
             });
 
             modelBuilder.Entity<Subscription>(x =>

@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain.Context;
+using BusinessLogic.Services;
+using BusinessLogic.Interfaces;
 
 namespace SocialNetworkGFL
 {
@@ -28,6 +30,8 @@ namespace SocialNetworkGFL
             services.AddDbContext<SocialNetworkContext>(options =>
                     options.UseSqlServer(Configuration
                     .GetConnectionString("Connection")));
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPostService, PostService>();
             services.AddControllersWithViews();
         }
 
