@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.Interfaces
 {
-    public interface IPostService
+    public interface ICommentService
     {
-        public void CreatePost(Post post);
-
-        IEnumerable<Post> GetUserFeed(string tempUserId);
-
-        Post GetPost(string postId);
+        public void AddComment(Comment comment);
     }
 }

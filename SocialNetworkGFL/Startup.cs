@@ -32,6 +32,7 @@ namespace SocialNetworkGFL
                     .GetConnectionString("Connection")));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped<ICommentService, CommentService>();
             services.AddControllersWithViews();
         }
 

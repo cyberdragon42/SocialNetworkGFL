@@ -1,0 +1,15 @@
+﻿.postContainer {
+    /*background-color: lightgreen;*/
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    /*border: 1px solid green;*/
+}
+
+.postStats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+img {
+    height: 100px;
+}

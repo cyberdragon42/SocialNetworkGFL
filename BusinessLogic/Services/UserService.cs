@@ -23,7 +23,10 @@ namespace BusinessLogic.Services
             var user = context.Users.
                 Where(u => u.Id == userId)
                 .Include(u=>u.Posts)
+                .ThenInclude(p=>p.Comments)
                 .FirstOrDefault();
+
+            user.Posts = user.Posts.OrderByDescending(p => p.Date).ToList();
             return user;
         }
     }

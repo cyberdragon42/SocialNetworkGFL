@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Interfaces;
 using BusinessLogic.Services;
+using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,84 +13,58 @@ namespace SocialNetworkGFL.Controllers
     public class ProfileController : Controller
     {
         private IUserService userService;
-        public ProfileController(IUserService userService)
+        private IPostService postService;
+        private ICommentService commentService;
+        private string tempUserId = "A96F575B-31B9-4DA6-98CF-CBD0C115B809";
+
+        public ProfileController(IUserService userService, IPostService postService,
+            ICommentService commentService)
         {
             this.userService = userService;
+            this.postService = postService;
+            this.commentService = commentService;
         }
-        // GET: ProfileController
+
         public ActionResult Index()
         {
-            var user = userService.GetUser("A96F575B-31B9-4DA6-98CF-CBD0C115B809");
+            var user = userService.GetUser(tempUserId);
             return View(user);
         }
 
-        // GET: ProfileController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Followers()
         {
+
             return View();
         }
 
-        // GET: ProfileController/Create
-        public ActionResult Create()
+        public ActionResult Follows()
         {
+
             return View();
         }
 
-        // POST: ProfileController/Create
+        public ActionResult Post(string id)
+        {
+            var post = postService.GetPost(id);
+            return View(post);
+        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Post(string id, [Bind("Date,Content,UserId")] Comment comment)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                comment.Date = DateTime.UtcNow;
+                comment.PostId = id;
+                comment.UserId = tempUserId;
+
+                commentService.AddComment(comment);
+                var post = postService.GetPost(id);
+                return View(post);
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction("Index");
         }
 
-        // GET: ProfileController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ProfileController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ProfileController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ProfileController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

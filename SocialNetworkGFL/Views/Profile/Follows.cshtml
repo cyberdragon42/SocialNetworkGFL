@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Domain.Models.User>
+
+@{
+    ViewData["Title"] = "Follows";
+}
+
+<h1>Follows</h1>
+
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Login)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+        </tr>
+}
+

@@ -16,19 +16,19 @@ namespace SocialNetworkGFL.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly SocialNetworkContext _context;
         private readonly IPostService postService;
+        private string tempUserId = "A96F575B-31B9-4DA6-98CF-CBD0C115B809";
 
-        public HomeController(ILogger<HomeController> logger, SocialNetworkContext context, IPostService service)
+        public HomeController(ILogger<HomeController> logger, IPostService service)
         {
             _logger = logger;
-            _context = context;
             postService = service;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var posts = postService.GetUserFeed(tempUserId);
+            return View(posts);
         }
 
         [HttpPost]
@@ -38,11 +38,17 @@ namespace SocialNetworkGFL.Controllers
             {
                 Content = content,
                 Date = DateTime.UtcNow,
-                UserId = "A96F575B-31B9-4DA6-98CF-CBD0C115B809"
+                UserId = tempUserId
             };
 
+            var posts = postService.GetUserFeed(tempUserId);
             postService.CreatePost(post);
-            return View();
+            return View(posts);
+        }
+
+        public ActionResult ToggleLike(string postId)
+        {
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()
