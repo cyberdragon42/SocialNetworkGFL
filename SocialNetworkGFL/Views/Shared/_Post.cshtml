@@ -1,0 +1,40 @@
+﻿@model Domain.Models.Post
+
+<div>
+    <div class="postContainer">
+        <img src="~/images/istockphoto-1300845620-612x612.jpg" />
+        <div>
+            <h2>@Model.User.Name</h2>
+            <p>@Model.User.Login</p>
+            <p>@Model.Content</p>
+            <div class="postStats">
+                <span>
+                    Likes:
+                    @if (@Model.Likes == null)
+                    {
+                        <span>0</span>
+                    }
+                    else
+                    {
+                        @Model.Likes.Count
+                    }
+
+                </span>
+                <span>
+                    <a asp-controller="Profile"
+                       asp-action="Post" asp-route-id="@Model.Id">Comments:</a>
+                    @if (@Model.Comments == null)
+                    {
+                        <span>0</span>
+                    }
+                    else
+                    {
+                        @Model.Comments.Count
+                    }
+                </span>
+                <p><i>@Model.Date</i></p>
+                <hr />
+            </div>
+        </div>
+    </div>
+</div>

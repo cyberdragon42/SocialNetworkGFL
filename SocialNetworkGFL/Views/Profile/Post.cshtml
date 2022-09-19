@@ -3,7 +3,12 @@
 
 <div>
     <div>
-            <div class="postContainer">
+        <div>
+            @await Html.PartialAsync("../Shared/_Post.cshtml", Model)
+        </div>
+    </div>
+    @*<div>
+          <div class="postContainer">
                 <img src="~/images/istockphoto-1300845620-612x612.jpg" />
                 <div>
                     <h2>@Model.User.Name</h2>
@@ -23,7 +28,9 @@
 
                         </span>
                         <span>
-                            <a asp-action="Post" asp-route-id="@Model.Id">Comments</a>
+                            <a 
+                               asp-controller="Profile"
+                               asp-action="Post" asp-route-id="@Model.Id">Comments:</a>
                             @if (@Model.Comments == null)
                             {
                                 <span>0</span>
@@ -38,7 +45,7 @@
                     </div>
                 </div>
             </div>
-    </div>
+    </div>*@
     <div class="row">
         <form asp-action="Post">
             <fieldset>
