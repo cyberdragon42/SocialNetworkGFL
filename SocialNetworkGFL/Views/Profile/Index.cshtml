@@ -14,60 +14,10 @@
         @foreach (var item in Model.Posts)
         {
             @await Html.PartialAsync("../Shared/_Post.cshtml", item)
-            @*<div class="postContainer">
-                <img src="~/images/istockphoto-1300845620-612x612.jpg" />
-                <div>
-                    <h2>@item.User.Name</h2>
-                    <p>@item.User.Login</p>
-                    <p>@item.Content</p>
-                    <div class="postStats">
-                        <span>
-                            Likes:
-                            @if (item.Likes == null)
-                            {
-                                <span>0</span>
-                            }
-                            else
-                            {
-                                @item.Likes.Count
-                            }
-
-                        </span>
-                        <span>
-                            <a asp-controller="Profile"
-                               asp-action="Post" asp-route-id="@item.Id">Comments:</a>
-                            @if (item.Comments == null)
-                            {
-                                <span>0</span>
-                            }
-                            else
-                            {
-                                @item.Comments.Count
-                            }
-                        </span>
-                        <p><i>@item.Date</i></p>
-                        <hr />
-                    </div>
-                </div>
-            </div>*@
         }
     </div>
 </div>
 
-@*
-    <div>
-        @foreach (var item in Model.Posts)
-        {
-        <div>
-            <p>@item.Content</p>
-            <p>@item.Date</p>
-            <a asp-action="Post"
-               asp-route-id="@item.Id">Comments</a>
-            <hr />
-        </div>
-        }
-    </div>
-*@
 
 
 
