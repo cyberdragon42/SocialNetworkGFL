@@ -1,4 +1,7 @@
 ﻿@model Domain.Models.Post
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
 
 <div>
     <div class="postContainer">
@@ -9,7 +12,7 @@
             <p>@Model.Content</p>
             <div class="postStats">
                 <span>
-                    Likes:
+                    @Localizer["Likes"]:
                     @if (@Model.Likes == null)
                     {
                         <span>0</span>
@@ -22,7 +25,8 @@
                 </span>
                 <span>
                     <a asp-controller="Profile"
-                       asp-action="Post" asp-route-id="@Model.Id">Comments:</a>
+                       asp-action="Post" 
+                       asp-route-id="@Model.Id">@Localizer["Comments"]:</a>
                     @if (@Model.Comments == null)
                     {
                         <span>0</span>
