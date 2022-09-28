@@ -23,9 +23,11 @@
             </fieldset>
         </form>
     </div>
+    
     <div>
         @foreach (var item in Model.Comments)
         {
+            <h4>@item.User.Name</h4>
             <p>@item.Content</p>
             <p>@item.Date</p>
             <hr />

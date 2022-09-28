@@ -1,0 +1,30 @@
+﻿@model SocialNetworkGFL.Models.LoginModel
+
+<div class="h-100 d-flex align-items-center justify-content-center">
+    <div class="row text-center">
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <fieldset>
+                @*<legend>@Localizer["AddComment"]</legend>*@
+                <legend>Login</legend>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" asp-for="Username" class="form-control" value="" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" asp-for="Password" class="form-control" value="" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div>
+                    <a class="navbar-brand" asp-area="" asp-controller="Account" asp-action="Register">No account yet? Sign Up</a>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Login" class="btn btn-primary" />
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+

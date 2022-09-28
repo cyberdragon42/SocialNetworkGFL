@@ -10,40 +10,47 @@ using System.Linq;
 using System.Threading.Tasks;
 using BusinessLogic.Services;
 using BusinessLogic.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SocialNetworkGFL.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IPostService postService;
-        private string tempUserId = "A96F575B-31B9-4DA6-98CF-CBD0C115B809";
+        public IControllerHelper controllerHelper;
+        private string tempUserId = "669e16bf-ee7e-4523-930c-1f7566278e9d";
 
-        public HomeController(ILogger<HomeController> logger, IPostService service)
+        public HomeController(ILogger<HomeController> logger, IPostService service,IControllerHelper controllerHelper)
         {
             _logger = logger;
             postService = service;
+            this.controllerHelper = controllerHelper;
         }
 
         public IActionResult Index()
         {
-            var posts = postService.GetUserFeed(tempUserId);
+            var id = controllerHelper.GetIdFromCurrentUser(HttpContext);
+            var posts = postService.GetUserFeed(id);
             return View(posts);
         }
 
         [HttpPost]
-        public IActionResult Index(string content)
+        public IActionResult Index(string content, [Bind("Date,Content")] Post post)
         {
-            var post = new Post
+            if (ModelState.IsValid)
             {
-                Content = content,
-                Date = DateTime.UtcNow,
-                UserId = tempUserId
-            };
+                var id = controllerHelper.GetIdFromCurrentUser(HttpContext);
+                post.UserId = id;
+                post.Date = DateTime.UtcNow;
 
-            var posts = postService.GetUserFeed(tempUserId);
-            postService.CreatePost(post);
-            return View(posts);
+                var posts = postService.GetUserFeed(id);
+                postService.CreatePost(post);
+                return View(posts);
+            }
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult ToggleLike(string postId)

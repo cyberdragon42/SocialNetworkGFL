@@ -1,6 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
-
 @inject IViewLocalizer Localizer
+
+@using Microsoft.AspNetCore.Identity
+@using Domain.Models
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,13 +33,36 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-        </nav>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <div>
+                                    <a class="nav-link text-dark" asp-area=""
+                                       asp-controller="Account" asp-action="Logout">Logout</a>
+                                </div>
+                            </li>
+                        }
+
+                        else
+                        {
+                            <li class="nav-item">
+                               <div>
+                                   <a class="nav-link text-dark" asp-area=""
+                                      asp-controller="Account" asp-action="Login">Login</a>
+                               </div> 
+                            </li>
+                        }
+                        <li class="nav-item">
+                            @await Html.PartialAsync("_SelectLanguage")
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+</nav>
     </header>
     <div class="container">
-        <div>
-            @await Html.PartialAsync("_SelectLanguage")
-        </div>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

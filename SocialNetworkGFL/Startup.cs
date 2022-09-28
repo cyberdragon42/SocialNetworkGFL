@@ -14,6 +14,9 @@ using Domain.Context;
 using BusinessLogic.Services;
 using BusinessLogic.Interfaces;
 using System.Globalization;
+using Microsoft.AspNetCore.Identity;
+using Domain.Models;
+using BusinessLogic.Helpers;
 
 namespace SocialNetworkGFL
 {
@@ -33,9 +36,14 @@ namespace SocialNetworkGFL
             services.AddDbContext<SocialNetworkContext>(options =>
                     options.UseSqlServer(Configuration
                     .GetConnectionString("Connection")));
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<SocialNetworkContext>()
+                .AddDefaultTokenProviders();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IControllerHelper, ControllerHelper>();
             services.AddControllersWithViews()
                 .AddDataAnnotationsLocalization()
                 .AddViewLocalization();
@@ -73,6 +81,7 @@ namespace SocialNetworkGFL
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

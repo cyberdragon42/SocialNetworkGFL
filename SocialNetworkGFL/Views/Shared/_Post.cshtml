@@ -7,8 +7,9 @@
     <div class="postContainer">
         <img src="~/images/istockphoto-1300845620-612x612.jpg" />
         <div>
-            <h2>@Model.User.Name</h2>
-            <p>@Model.User.Login</p>
+            <h3>@Model.User.Name</h3>
+            <a asp-controller="Profile" 
+               asp-action="Index" asp-id="@Model.User.Id">@Model.User.UserName</a>
             <p>@Model.Content</p>
             <div class="postStats">
                 <span>

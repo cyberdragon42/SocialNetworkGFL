@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Interfaces;
 using BusinessLogic.Services;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,24 +11,31 @@ using System.Threading.Tasks;
 
 namespace SocialNetworkGFL.Controllers
 {
+    [Authorize]
     public class ProfileController : Controller
     {
         private IUserService userService;
         private IPostService postService;
         private ICommentService commentService;
-        private string tempUserId = "A96F575B-31B9-4DA6-98CF-CBD0C115B809";
+        public IControllerHelper controllerHelper;
+        private string tempUserId = "669e16bf-ee7e-4523-930c-1f7566278e9d";
 
         public ProfileController(IUserService userService, IPostService postService,
-            ICommentService commentService)
+            ICommentService commentService, IControllerHelper controllerHelper)
         {
             this.userService = userService;
             this.postService = postService;
             this.commentService = commentService;
+            this.controllerHelper = controllerHelper;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
-            var user = userService.GetUser(tempUserId);
+            if (string.IsNullOrEmpty(id))
+            {
+                id = controllerHelper.GetIdFromCurrentUser(HttpContext);
+            }
+            var user = userService.GetUser(id);
             return View(user);
         }
 
@@ -56,7 +64,7 @@ namespace SocialNetworkGFL.Controllers
             {
                 comment.Date = DateTime.UtcNow;
                 comment.PostId = id;
-                comment.UserId = tempUserId;
+                comment.UserId = controllerHelper.GetIdFromCurrentUser(HttpContext);
 
                 commentService.AddComment(comment);
                 var post = postService.GetPost(id);
