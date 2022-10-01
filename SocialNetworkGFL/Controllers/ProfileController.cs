@@ -18,7 +18,6 @@ namespace SocialNetworkGFL.Controllers
         private IPostService postService;
         private ICommentService commentService;
         public IControllerHelper controllerHelper;
-        private string tempUserId = "669e16bf-ee7e-4523-930c-1f7566278e9d";
 
         public ProfileController(IUserService userService, IPostService postService,
             ICommentService commentService, IControllerHelper controllerHelper)
@@ -29,6 +28,7 @@ namespace SocialNetworkGFL.Controllers
             this.controllerHelper = controllerHelper;
         }
 
+        [HttpGet]
         public ActionResult Index(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -51,6 +51,7 @@ namespace SocialNetworkGFL.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult Post(string id)
         {
             var post = postService.GetPost(id);

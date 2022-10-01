@@ -20,7 +20,6 @@ namespace SocialNetworkGFL.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IPostService postService;
         public IControllerHelper controllerHelper;
-        private string tempUserId = "669e16bf-ee7e-4523-930c-1f7566278e9d";
 
         public HomeController(ILogger<HomeController> logger, IPostService service,IControllerHelper controllerHelper)
         {
@@ -29,15 +28,16 @@ namespace SocialNetworkGFL.Controllers
             this.controllerHelper = controllerHelper;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var id = controllerHelper.GetIdFromCurrentUser(HttpContext);
-            var posts = postService.GetUserFeed(id);
+            var posts = postService.GetUserPosts(id);
             return View(posts);
         }
 
         [HttpPost]
-        public IActionResult Index(string content, [Bind("Date,Content")] Post post)
+        public IActionResult Index([Bind("Content")] Post post)
         {
             if (ModelState.IsValid)
             {
@@ -45,7 +45,7 @@ namespace SocialNetworkGFL.Controllers
                 post.UserId = id;
                 post.Date = DateTime.UtcNow;
 
-                var posts = postService.GetUserFeed(id);
+                var posts = postService.GetUserPosts(id);
                 postService.CreatePost(post);
                 return View(posts);
             }
@@ -53,10 +53,6 @@ namespace SocialNetworkGFL.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult ToggleLike(string postId)
-        {
-            return RedirectToAction("Index");
-        }
 
         public IActionResult Privacy()
         {

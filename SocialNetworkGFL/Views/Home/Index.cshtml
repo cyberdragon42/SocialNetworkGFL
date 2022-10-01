@@ -9,11 +9,11 @@
 @model IEnumerable<Domain.Models.Post>
 
 <div class="row">
-    <form method="post">
+    <form asp-action="Index">
         <fieldset>
             <legend>@Localizer["AddPost"]</legend>
             <div class="form-group">
-                <input type="text" class="form-control" name="content" value="" />
+                <input type="text" name="content" class="form-control" value="" />
             </div>
             <div>
                 <label>&nbsp;</label>

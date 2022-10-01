@@ -20,6 +20,7 @@ namespace SocialNetworkGFL.Controllers
             this.signInManager = signInManager;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return RedirectToAction("Login");
@@ -38,7 +39,7 @@ namespace SocialNetworkGFL.Controllers
                     Name = registerModel.Name,
                 };
 
-                var result = await userManager.CreateAsync(user, registerModel.Password);
+               await userManager.CreateAsync(user, registerModel.Password);
 
                 return RedirectToAction("Login");
             }
@@ -46,11 +47,13 @@ namespace SocialNetworkGFL.Controllers
             return View(registerModel);
         }
 
+        [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
@@ -73,6 +76,7 @@ namespace SocialNetworkGFL.Controllers
             return View(loginModel);
         }
 
+        [HttpGet]
         public async Task<IActionResult> LogOut()
         {
             await signInManager.SignOutAsync();
