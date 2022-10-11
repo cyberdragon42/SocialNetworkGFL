@@ -2,12 +2,32 @@
     ViewData["Title"] = "Profile";
 }
 
-@model Domain.Models.User
+@model BusinessLogic.Dto.ProfileModel;
 
 <div class="text-center">
     <img src="~/images/istockphoto-1300845620-612x612.jpg" />
     <h1>@Model.Name</h1>
     <p>@Model.UserName</p>
+    @if (!Model.IsFollowed)
+    {
+    <button class="btn btn-primary">
+        <a asp-controller="Profile"
+           asp-route-returnUrl="@Context.Request.Path"
+           asp-action="Follow" asp-route-id=@Model.Id>
+            follow
+         </a>
+    </button>
+
+
+    }
+    else
+    {
+        <button class="btn btn-dark">
+            <a asp-controller="Profile"
+               asp-route-returnUrl="@Context.Request.Path"
+               asp-action="Unfollow" asp-route-id=@Model.Id>unfollow</a>
+        </button>
+    }
     <hr />
 </div>
 

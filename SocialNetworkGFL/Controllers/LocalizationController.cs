@@ -10,7 +10,7 @@ namespace SocialNetworkGFL.Controllers
 {
     public class LocalizationController : Controller
     {
-        // GET: LocalizationController
+        [HttpGet]
         public ActionResult Index()
         {
             return View();

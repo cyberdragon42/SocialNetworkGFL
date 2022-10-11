@@ -8,7 +8,6 @@ namespace Domain.Models
 {
     public class Subscription
     {
-        public string Id { get; set; }
         public string FollowerId { get; set; }
         public User Follower { get; set; }
 

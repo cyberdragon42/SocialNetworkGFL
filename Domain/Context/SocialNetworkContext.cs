@@ -15,6 +15,7 @@ namespace Domain.Context
         public DbSet<Post> Posts { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
 
         public SocialNetworkContext(DbContextOptions<SocialNetworkContext> options)
         : base(options) { }
@@ -41,14 +42,16 @@ namespace Domain.Context
 
             modelBuilder.Entity<Subscription>(x =>
             {
-                x.Property(y => y.Id).HasDefaultValueSql("NEWID()");
+                x.HasKey(nameof(Subscription.FollowerId), nameof(Subscription.FollowingId));
                 x.HasOne(y => y.Follower)
                     .WithMany(z => z.Followings)
-                    .HasForeignKey(y => y.FollowerId);
+                    .HasForeignKey(y => y.FollowerId)
+                    .OnDelete(DeleteBehavior.ClientCascade);
 
                 x.HasOne(y => y.Following)
                     .WithMany(z => z.Followers)
-                    .HasForeignKey(y => y.FollowingId);
+                    .HasForeignKey(y => y.FollowingId)
+                    .OnDelete(DeleteBehavior.ClientCascade);
             });
 
             modelBuilder.Entity<Like>(x =>

@@ -1,0 +1,15 @@
+﻿@model IEnumerable<BusinessLogic.Dto.ProfileModel>
+
+@{
+    ViewData["Title"] = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Search</h1>
+@foreach(var item in Model)
+ {
+    <h3>@item.Name</h3>
+    <p>@item.UserName</p>
+    <hr />
+ }
+

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<BusinessLogic.Dto.ProfileModel>
+
+@{
+    ViewData["Title"] = "UserFollows";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Follows: @Model.Count()</h2>
+@if (Model.Count() == 0)
+{
+    <p>You don't follow anyone yet</p>
+}
+else
+{
+<div>
+    @foreach (var item in Model)
+    {
+        <h3>@item.Name</h3>
+        <a asp-controller="Profile"
+           asp-action="Index" asp-route-id="@item.Id">@item.UserName</a>
+        <button class="btn btn-dark">
+            <a asp-controller="Profile"
+               asp-route-returnUrl="@Context.Request.Path"
+               asp-action="Unfollow" asp-route-id=@item.Id>unfollow</a>
+        </button>
+        <hr />
+    }
+</div>
+}
+
+
+

@@ -9,7 +9,7 @@
         <div>
             <h3>@Model.User.Name</h3>
             <a asp-controller="Profile" 
-               asp-action="Index" asp-id="@Model.User.Id">@Model.User.UserName</a>
+               asp-action="Index" asp-route-id="@Model.User.Id">@Model.User.UserName</a>
             <p>@Model.Content</p>
             <div class="postStats">
                 <span>

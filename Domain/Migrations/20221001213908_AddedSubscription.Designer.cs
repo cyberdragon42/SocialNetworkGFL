@@ -4,14 +4,16 @@ using Domain.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Domain.Migrations
 {
     [DbContext(typeof(SocialNetworkContext))]
-    partial class SocialNetworkContextModelSnapshot : ModelSnapshot
+    [Migration("20221001213908_AddedSubscription")]
+    partial class AddedSubscription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,13 +100,20 @@ namespace Domain.Migrations
 
             modelBuilder.Entity("Domain.Models.Subscription", b =>
                 {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)")
+                        .HasDefaultValueSql("NEWID()");
+
                     b.Property<string>("FollowerId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FollowingId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("FollowerId", "FollowingId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("FollowerId");
 
                     b.HasIndex("FollowingId");
 
@@ -355,15 +364,11 @@ namespace Domain.Migrations
                 {
                     b.HasOne("Domain.Models.User", "Follower")
                         .WithMany("Followings")
-                        .HasForeignKey("FollowerId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
+                        .HasForeignKey("FollowerId");
 
                     b.HasOne("Domain.Models.User", "Following")
                         .WithMany("Followers")
-                        .HasForeignKey("FollowingId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
+                        .HasForeignKey("FollowingId");
 
                     b.Navigation("Follower");
 

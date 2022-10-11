@@ -38,20 +38,31 @@ namespace BusinessLogic.Services
 
         public IEnumerable<Post> GetUserPosts(string userId)
         {
-            //get posts of users and followings
+
             var user = context.Users
-                .Include(u => u.Posts.OrderByDescending(p=>p.Date))
+                .Include(u => u.Posts.OrderByDescending(p => p.Date))
                 .Include(p => p.Likes)
                 .Include(p => p.Comments)
                 .FirstOrDefault(u => u.Id == userId);
-            //var posts = user.Posts.OrderByDescending(p => p.Date);
-            //followings posts later
-            
-            //var posts = context.Posts
-            //    .Include(p => p.Likes)
-            //    .Include(p => p.Comments)
-            //    .Include(p=>p.User);
-            return user.Posts;
+
+            var posts = user.Posts.ToList();
+
+            var followings = context.Users.
+                    Include(u=>u.Followers)
+                    .Include(u => u.Posts.OrderByDescending(p => p.Date))
+                    .Include(p => p.Likes)
+                    .Include(p => p.Comments)
+                .Where(u => u.Followers.Any(f=>f.FollowerId==userId));
+
+            if (followings != null)
+            {
+                foreach(var f in followings)
+                {
+                    posts = posts.Concat(f.Posts).ToList();
+                }
+            }
+
+            return posts.OrderByDescending(p=>p.Date);
         }
     }
 }

@@ -14,20 +14,25 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace SocialNetworkGFL.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IPostService postService;
-        public IControllerHelper controllerHelper;
+        private readonly IUserService userService;
+        private readonly IControllerHelper controllerHelper;
 
-        public HomeController(ILogger<HomeController> logger, IPostService service,IControllerHelper controllerHelper)
+        public HomeController(ILogger<HomeController> logger, 
+            IPostService postService,
+            IUserService userService, 
+            IControllerHelper controllerHelper)
         {
             _logger = logger;
-            postService = service;
+            this.postService = postService;
+            this.userService = userService;
             this.controllerHelper = controllerHelper;
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Index()
         {
@@ -36,6 +41,7 @@ namespace SocialNetworkGFL.Controllers
             return View(posts);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Index([Bind("Content")] Post post)
         {
@@ -45,12 +51,23 @@ namespace SocialNetworkGFL.Controllers
                 post.UserId = id;
                 post.Date = DateTime.UtcNow;
 
-                var posts = postService.GetUserPosts(id);
                 postService.CreatePost(post);
-                return View(posts);
             }
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Search()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Search(string keyword)
+        {
+            var users = userService.FindUsers(keyword);
+            return View(users);
         }
 
 

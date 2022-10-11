@@ -14,10 +14,10 @@ namespace SocialNetworkGFL.Controllers
     [Authorize]
     public class ProfileController : Controller
     {
-        private IUserService userService;
-        private IPostService postService;
-        private ICommentService commentService;
-        public IControllerHelper controllerHelper;
+        private readonly IUserService userService;
+        private readonly IPostService postService;
+        private readonly ICommentService commentService;
+        private readonly IControllerHelper controllerHelper;
 
         public ProfileController(IUserService userService, IPostService postService,
             ICommentService commentService, IControllerHelper controllerHelper)
@@ -31,25 +31,48 @@ namespace SocialNetworkGFL.Controllers
         [HttpGet]
         public ActionResult Index(string id)
         {
+            var currentUserId = controllerHelper.GetIdFromCurrentUser(HttpContext);
             if (string.IsNullOrEmpty(id))
             {
                 id = controllerHelper.GetIdFromCurrentUser(HttpContext);
             }
-            var user = userService.GetUser(id);
-            return View(user);
+
+            var profile = userService.GetProfile(id,currentUserId);
+            return View(profile);
         }
 
-        public ActionResult Followers()
+        [HttpGet]
+        public async Task<ActionResult> UserFollows()
         {
-
-            return View();
+            var userId = controllerHelper.GetIdFromCurrentUser(HttpContext);
+            var follows = await userService.GetUserFollows(userId);
+            return View(follows);
         }
 
-        public ActionResult Follows()
+        [HttpGet]
+        public async Task<ActionResult> UserFollowers()
         {
-
-            return View();
+            var userId = controllerHelper.GetIdFromCurrentUser(HttpContext);
+            var followers = await userService.GetUserFollowers(userId);
+            return View(followers);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> Follow(string id, string returnUrl)
+        {
+            var userId = controllerHelper.GetIdFromCurrentUser(HttpContext);
+            await userService.FollowUser(userId, id);
+            return LocalRedirect(returnUrl);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Unfollow(string id, string returnUrl)
+        {
+            var userId = controllerHelper.GetIdFromCurrentUser(HttpContext);
+            await userService.UnfollowUser(userId, id);
+            return LocalRedirect(returnUrl);
+        }
+
 
         [HttpGet]
         public ActionResult Post(string id)
@@ -68,8 +91,7 @@ namespace SocialNetworkGFL.Controllers
                 comment.UserId = controllerHelper.GetIdFromCurrentUser(HttpContext);
 
                 commentService.AddComment(comment);
-                var post = postService.GetPost(id);
-                return View(post);
+                return RedirectToAction("Post", new { id });
             }
 
             return RedirectToAction("Index");
