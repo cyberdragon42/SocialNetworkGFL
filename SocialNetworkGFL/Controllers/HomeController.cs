@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using BusinessLogic.Services;
 using BusinessLogic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using BusinessLogic.Helpers;
 
 namespace SocialNetworkGFL.Controllers
 {
@@ -19,7 +20,6 @@ namespace SocialNetworkGFL.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IPostService postService;
         private readonly IUserService userService;
-        private readonly IControllerHelper controllerHelper;
 
         public HomeController(ILogger<HomeController> logger, 
             IPostService postService,
@@ -29,14 +29,13 @@ namespace SocialNetworkGFL.Controllers
             _logger = logger;
             this.postService = postService;
             this.userService = userService;
-            this.controllerHelper = controllerHelper;
         }
 
         [Authorize]
         [HttpGet]
         public IActionResult Index()
         {
-            var id = controllerHelper.GetIdFromCurrentUser(HttpContext);
+            var id = HttpContext.GetIdFromCurrentUser();
             var posts = postService.GetUserPosts(id);
             return View(posts);
         }
@@ -47,7 +46,7 @@ namespace SocialNetworkGFL.Controllers
         {
             if (ModelState.IsValid)
             {
-                var id = controllerHelper.GetIdFromCurrentUser(HttpContext);
+                var id = HttpContext.GetIdFromCurrentUser();
                 post.UserId = id;
                 post.Date = DateTime.UtcNow;
 
