@@ -28,6 +28,9 @@
         @foreach (var item in Model.Comments)
         {
             <h4>@item.User.Name</h4>
+            <a asp-controller="Profile"
+               asp-action="Index" asp-route-id="@Model.User.Id">@Model.User.UserName
+            </a>
             <p>@item.Content</p>
             <p>@item.Date</p>
             <hr />

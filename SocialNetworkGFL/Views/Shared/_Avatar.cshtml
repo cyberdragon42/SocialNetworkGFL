@@ -1,0 +1,10 @@
+﻿@model string
+
+@if (@Model!=Guid.Empty.ToString())
+{
+    <img src="~/Avatars/@Model" />
+}
+else
+{
+    <img src="~/images/istockphoto-1300845620-612x612.jpg" />
+}

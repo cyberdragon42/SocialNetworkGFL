@@ -23,8 +23,7 @@ namespace SocialNetworkGFL.Controllers
 
         public HomeController(ILogger<HomeController> logger, 
             IPostService postService,
-            IUserService userService, 
-            IControllerHelper controllerHelper)
+            IUserService userService)
         {
             _logger = logger;
             this.postService = postService;

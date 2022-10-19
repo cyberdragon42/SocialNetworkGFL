@@ -10,6 +10,25 @@
     grid-template-columns: 1fr 1fr 1fr;
 }
 
+.postContent, .postContent:active, .postContent:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.textLink, .textLink:active, .textLink:hover {
+    text-decoration: none;
+    color: black;
+}
+
+/*
+.postContent a{
+    background-color: red;
+    width: stretch;
+}*/
+
+
 img {
     height: 100px;
+    min-width: 100px;
+    border-radius: 50%;
 }

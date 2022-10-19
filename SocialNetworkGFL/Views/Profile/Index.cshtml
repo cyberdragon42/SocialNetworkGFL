@@ -2,33 +2,52 @@
     ViewData["Title"] = "Profile";
 }
 
-@model BusinessLogic.Dto.ProfileModel;
+@model BusinessLogic.Dto.ProfileModel
+@{
+    var avatar = Model.AvatarId+Model.AvatarExtension;
+}
 
 <div class="text-center">
-    <img src="~/images/istockphoto-1300845620-612x612.jpg" />
-    <h1>@Model.Name</h1>
+    @await Html.PartialAsync("_Avatar", avatar)
+    @*@if (!string.IsNullOrEmpty(@avatar))
+        {
+            <img src="~/Avatars/@Model.AvatarId@Model.AvatarExtension" alt="~/Avatars/@Model.AvatarId@Model.AvatarExtension" />
+        }
+        else
+        {
+            <img src="~/images/istockphoto-1300845620-612x612.jpg" />
+        }*@
+
+    <h1>
+        @Model.Name
+        @if (Model.IsFollower)
+        {
+            <span class="badge badge-primary">
+                follows you
+            </span>
+        }
+    </h1>
     <p>@Model.UserName</p>
     @if (!Model.IsFollowed)
     {
-    <button class="btn btn-primary">
-        <a asp-controller="Profile"
-           asp-route-returnUrl="@Context.Request.Path"
-           asp-action="Follow" asp-route-id=@Model.Id>
-            follow
-         </a>
-    </button>
-
-
+        <button class="btn btn-primary">
+            <a asp-controller="Profile" class="textLink"
+               asp-route-returnUrl="@Context.Request.Path"
+               asp-action="Follow" asp-route-id=@Model.Id>
+                follow
+            </a>
+        </button>
     }
     else
     {
-        <button class="btn btn-dark">
-            <a asp-controller="Profile"
+        <button class="btn btn-light">
+            <a asp-controller="Profile" class="textLink"
                asp-route-returnUrl="@Context.Request.Path"
                asp-action="Unfollow" asp-route-id=@Model.Id>unfollow</a>
         </button>
     }
-    <hr />
+    <a asp-action="Edit">Edit</a>
+    <hr/>
 </div>
 
 <div>

@@ -43,7 +43,6 @@ namespace SocialNetworkGFL
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<ICommentService, CommentService>();
-            services.AddScoped<IControllerHelper, ControllerHelper>();
             services.AddControllersWithViews()
                 .AddDataAnnotationsLocalization()
                 .AddViewLocalization();

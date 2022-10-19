@@ -3,6 +3,7 @@ using BusinessLogic.Dto;
 using BusinessLogic.Interfaces;
 using Domain.Context;
 using Domain.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -87,34 +88,26 @@ namespace BusinessLogic.Services
                 .Select(s=> mapper.Map <User, ProfileModel>(s.Following))
                 .ToListAsync();
 
+            for(var i=0; i < follows.Count; ++i)
+            {
+                follows[i].IsFollower = await IsFollower(id, follows[i].Id);
+            }
+
             return follows;
         }
 
         public async Task<IEnumerable<ProfileModel>> GetUserFollowers(string userId)
         {
-            var subscriptions = context.Subscriptions
+            var followers = await context.Subscriptions
                 .Include(s => s.Follower)
-                .Where(s => s.FollowingId == userId);
+                .Where(s => s.FollowingId == userId)
+                .Select(s => mapper.Map<User, ProfileModel>(s.Follower))
+                .ToListAsync();
 
-            var followers = new List<ProfileModel>();
-            foreach (var s in subscriptions)
+            for (var i = 0; i < followers.Count; ++i)
             {
-                var profile = new ProfileModel
-                {
-                    Id = s.Follower.Id,
-                    Name = s.Follower.Name,
-                    Email = s.Follower.Email,
-                    UserName = s.Follower.UserName,
-                    Posts = s.Follower.Posts,
-                };
-
-                //if user reads currentuser
-                if (s.Follower.Followings.FirstOrDefault(f => f.FollowingId == userId) != null)
-                {
-                    profile.IsFollower = true;
-                }
-
-                followers.Add(profile);
+                followers[i].IsFollower = true;
+                followers[i].IsFollowed = await IsFollowing(userId, followers[i].Id);
             }
 
             return followers;
@@ -128,6 +121,42 @@ namespace BusinessLogic.Services
                 .ToList();
 
             return users;
+        }
+
+        /// <summary>
+        ///is user with followerId a follower of current user
+        /// </summary>
+        /// <param name="currentUserId"></param>
+        /// <param name="followerId"></param>
+        /// <returns></returns>
+        protected async Task<bool> IsFollower(string currentUserId, string followerId)
+        {
+            var subscription = await context.Subscriptions
+                .Where(s=>s.FollowerId==followerId&&s.FollowingId==currentUserId)
+                .FirstOrDefaultAsync();
+            if (subscription != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// does current user follow user with followId
+        /// </summary>
+        /// <param name="currentUserId"></param>
+        /// <param name="followId"></param>
+        /// <returns></returns>
+        protected async Task<bool> IsFollowing(string currentUserId, string followId)
+        {
+            var subscription = await context.Subscriptions
+                .Where(s => s.FollowerId == currentUserId && s.FollowingId == followId)
+                .FirstOrDefaultAsync();
+            if (subscription != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

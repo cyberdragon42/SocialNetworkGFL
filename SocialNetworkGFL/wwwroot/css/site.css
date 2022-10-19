@@ -12,9 +12,13 @@ a {
   color: #0366d6;
 }
 
+.badge-primary {
+    background-color: rebeccapurple;
+}
+
 .btn-primary {
   color: #fff;
-  background-color: forestgreen;
+  background-color: rebeccapurple;
   border-color: #1861ac;
 }
 

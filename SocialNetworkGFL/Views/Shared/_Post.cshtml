@@ -1,16 +1,26 @@
 ﻿@model Domain.Models.Post
 @using Microsoft.AspNetCore.Mvc.Localization
+@{ 
+    var avatar = Model.User.AvatarId + Model.User.AvatarExtension;
+}
 
 @inject IViewLocalizer Localizer
 
 <div>
     <div class="postContainer">
-        <img src="~/images/istockphoto-1300845620-612x612.jpg" />
+        @*<img src="~/images/istockphoto-1300845620-612x612.jpg" />*@
+        @await Html.PartialAsync("_Avatar", avatar)
         <div>
             <h3>@Model.User.Name</h3>
-            <a asp-controller="Profile" 
+            <a asp-controller="Profile"
                asp-action="Index" asp-route-id="@Model.User.Id">@Model.User.UserName</a>
-            <p>@Model.Content</p>
+                <a asp-controller="Profile"
+                   asp-action="Post" asp-route-id="@Model.Id"
+                   class="textLink">
+                    <div>
+                        @Model.Content
+                    </div>
+                </a>
             <div class="postStats">
                 <span>
                     @Localizer["Likes"]:
@@ -25,9 +35,7 @@
 
                 </span>
                 <span>
-                    <a asp-controller="Profile"
-                       asp-action="Post" 
-                       asp-route-id="@Model.Id">@Localizer["Comments"]:</a>
+                    @Localizer["Comments"]:
                     @if (@Model.Comments == null)
                     {
                         <span>0</span>

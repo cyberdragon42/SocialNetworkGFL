@@ -73,6 +73,11 @@ namespace Domain.Context
                 .WithMany(z => z.Posts)
                 .HasForeignKey(y => y.UserId);
             });
+
+            //modelBuilder.Entity<Avatar>(x =>
+            //{
+            //    x.Property(y => y.Id).HasDefaultValueSql("NEWID()");
+            //});
         }
     }
 }
