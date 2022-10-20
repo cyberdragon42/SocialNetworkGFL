@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using BusinessLogic.Services;
 using BusinessLogic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using BusinessLogic.Helpers;
+using SocialNetworkGFL.Helpers;
 
 namespace SocialNetworkGFL.Controllers
 {

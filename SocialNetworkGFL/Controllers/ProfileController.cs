@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BusinessLogic.Helpers;
+using SocialNetworkGFL.Helpers;
 using System.Web;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
