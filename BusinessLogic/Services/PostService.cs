@@ -36,14 +36,14 @@ namespace BusinessLogic.Services
             return post;
         }
 
-        public IEnumerable<Post> GetUserPosts(string userId)
+        public IEnumerable<Post> GetUserPosts(string currentUserId)
         {
 
             var user = context.Users
                 .Include(u => u.Posts.OrderByDescending(p => p.Date))
                 .Include(p => p.Likes)
                 .Include(p => p.Comments)
-                .FirstOrDefault(u => u.Id == userId);
+                .FirstOrDefault(u => u.Id == currentUserId);
 
             var posts = user.Posts.ToList();
 
@@ -52,7 +52,7 @@ namespace BusinessLogic.Services
                     .Include(u => u.Posts.OrderByDescending(p => p.Date))
                     .Include(p => p.Likes)
                     .Include(p => p.Comments)
-                .Where(u => u.Followers.Any(f=>f.FollowerId==userId));
+                .Where(u => u.Followers.Any(f=>f.FollowerId== currentUserId));
 
             if (followings != null)
             {

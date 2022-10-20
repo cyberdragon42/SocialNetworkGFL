@@ -11,7 +11,7 @@ namespace BusinessLogic.Interfaces
     {
         public void CreatePost(Post post);
 
-        IEnumerable<Post> GetUserPosts(string tempUserId);
+        IEnumerable<Post> GetUserPosts(string currentUserId);
 
         Post GetPost(string postId);
     }

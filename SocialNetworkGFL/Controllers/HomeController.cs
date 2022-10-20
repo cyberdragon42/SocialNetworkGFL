@@ -62,9 +62,9 @@ namespace SocialNetworkGFL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Search(string keyword)
+        public async Task<IActionResult> Search(string keyword)
         {
-            var users = userService.FindUsers(keyword);
+            var users = await userService.FindUsers(keyword);
             return View(users);
         }
 

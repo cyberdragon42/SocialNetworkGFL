@@ -39,7 +39,7 @@ namespace SocialNetworkGFL.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(string id)
+        public async Task<ActionResult> Index(string id)
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
 
@@ -48,39 +48,39 @@ namespace SocialNetworkGFL.Controllers
                 id = currentUserId;
             }
 
-            var profile = userService.GetProfile(id,currentUserId);
+            var profile = await userService.GetProfile(id,currentUserId);
             return View(profile);
         }
 
         [HttpGet]
         public async Task<ActionResult> UserFollows()
         {
-            var userId = HttpContext.GetIdFromCurrentUser();
-            var follows = await userService.GetUserFollows(userId);
+            var currentUserId = HttpContext.GetIdFromCurrentUser();
+            var follows = await userService.GetUserFollows(currentUserId);
             return View(follows);
         }
 
         [HttpGet]
         public async Task<ActionResult> UserFollowers()
         {
-            var userId = HttpContext.GetIdFromCurrentUser();
-            var followers = await userService.GetUserFollowers(userId);
+            var currentUserId = HttpContext.GetIdFromCurrentUser();
+            var followers = await userService.GetUserFollowers(currentUserId);
             return View(followers);
         }
 
         [HttpGet]
         public async Task<ActionResult> Follow(string id, string returnUrl)
         {
-            var userId = HttpContext.GetIdFromCurrentUser();
-            await userService.FollowUser(userId, id);
+            var currentUserId = HttpContext.GetIdFromCurrentUser();
+            await userService.FollowUser(currentUserId, id);
             return LocalRedirect(returnUrl);
         }
 
         [HttpGet]
         public async Task<ActionResult> Unfollow(string id, string returnUrl)
         {
-            var userId = HttpContext.GetIdFromCurrentUser();
-            await userService.UnfollowUser(userId, id);
+            var currentUserId = HttpContext.GetIdFromCurrentUser();
+            await userService.UnfollowUser(currentUserId, id);
             return LocalRedirect(returnUrl);
         }
 
@@ -109,10 +109,10 @@ namespace SocialNetworkGFL.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit()
+        public async Task<ActionResult> Edit()
         {
             var id = HttpContext.GetIdFromCurrentUser();
-            var profile = userService.GetProfile(id, id);
+            var profile = await userService.GetProfile(id, id);
             return View(profile);
         }
 
