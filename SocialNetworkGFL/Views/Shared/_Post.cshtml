@@ -1,7 +1,8 @@
-﻿@model Domain.Models.Post
+﻿@model BusinessLogic.Dto.PostModel
 @using Microsoft.AspNetCore.Mvc.Localization
 @{ 
     var avatar = Model.User.AvatarId + Model.User.AvatarExtension;
+    var requestUrl = Context.Request.Path;
 }
 
 @inject IViewLocalizer Localizer
@@ -23,7 +24,32 @@
                 </a>
             <div class="postStats">
                 <span>
-                    @Localizer["Likes"]:
+                    @if (Model.isLiked)
+                    {
+                            <a asp-action="DislikePost" class="textLink"
+                               asp-controller="Post"
+                               asp-route-returnUrl="@requestUrl"
+                               asp-route-postId="@Model.Id">
+                                @*<img src="~/images/dislikeIcon.png" 
+                                     class="likeIcon"/>*@
+                                <span>
+                                    <i class="fa fa-heart fa-2x"></i>
+                                </span>
+                            </a>
+                    }
+                    else
+                    {
+                            <a asp-action="LikePost" class="textLink"
+                               asp-controller="Post"
+                               asp-route-returnUrl="@requestUrl"
+                               asp-route-postId="@Model.Id">
+                                @*<img src="~/images/likeIcon.png" class="likeIcon"/>*@
+                                <span>
+                                    <i class="fa fa-heart fa-2x" style="color:dimgrey"></i>
+                                </span>
+                            </a>
+                    }
+
                     @if (@Model.Likes == null)
                     {
                         <span>0</span>
@@ -35,7 +61,10 @@
 
                 </span>
                 <span>
-                    @Localizer["Comments"]:
+                    @*@Localizer["Comments"]:*@
+                    <span>
+                        <i class="fa fa-comment fa-2x"></i>
+                    </span>
                     @if (@Model.Comments == null)
                     {
                         <span>0</span>

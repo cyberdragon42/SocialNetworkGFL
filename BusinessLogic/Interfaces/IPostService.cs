@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using BusinessLogic.Dto;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,9 @@ namespace BusinessLogic.Interfaces
     {
         public void CreatePost(Post post);
 
-        IEnumerable<Post> GetUserPosts(string currentUserId);
-
-        Post GetPost(string postId);
+        IEnumerable<PostModel> GetUserPosts(string currentUserId);
+        PostModel GetPost(string postId, string currentUserId);
+        void LikePost(string postId, string returnUrl);
+        void DislikePost(string postId, string returnUrl);
     }
 }

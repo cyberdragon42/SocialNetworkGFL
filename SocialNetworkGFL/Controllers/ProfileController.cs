@@ -91,7 +91,8 @@ namespace SocialNetworkGFL.Controllers
         [HttpGet]
         public ActionResult Post(string id)
         {
-            var post = postService.GetPost(id);
+            var currentUserId = HttpContext.GetIdFromCurrentUser();
+            var post = postService.GetPost(id, currentUserId);
             return View(post);
         }
 

@@ -1,0 +1,37 @@
+﻿using BusinessLogic.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using SocialNetworkGFL.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace SocialNetworkGFL.Controllers
+{
+    public class PostController : Controller
+    {
+        private readonly IPostService postService;
+        public PostController(IPostService postService)
+        {
+            this.postService = postService;
+        }
+
+        [HttpGet]
+        public IActionResult LikePost(string postId, string returnUrl)
+        {
+            var currentUserId = HttpContext.GetIdFromCurrentUser();
+            postService.LikePost(postId, currentUserId);
+            return LocalRedirect(returnUrl);
+        }
+
+        [HttpGet]
+        public IActionResult DislikePost(string postId, string returnUrl)
+        {
+            var currentUserId = HttpContext.GetIdFromCurrentUser();
+            postService.DislikePost(postId, currentUserId);
+            return LocalRedirect(returnUrl);
+        }
+
+
+    }
+}

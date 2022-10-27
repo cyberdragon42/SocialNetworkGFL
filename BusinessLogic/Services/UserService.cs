@@ -48,13 +48,23 @@ namespace BusinessLogic.Services
         {
             var user = context.Users.
                 Where(u => u.Id == userId)
-                .Include(u => u.Posts.OrderByDescending(p => p.Date))
-                .ThenInclude(p => p.Comments)
+                .Include(u => u.Posts.OrderByDescending(p => p.Date)).ThenInclude(p => p.Comments)
+                .Include(u => u.Posts.OrderByDescending(p => p.Date)).ThenInclude(p=>p.Likes)
                 .Include(u=>u.Followers)
                 .Include(u=>u.Followings)
                 .FirstOrDefault();
 
             var profile = mapper.Map<User, ProfileModel>(user);
+
+            var postModels = new List<PostModel>();
+            foreach (var p in user.Posts)
+            {
+                var postModel = mapper.Map<Post, PostModel>(p);
+                postModel.isLiked = p.Likes.Any(l => l.UserId == currentUserId);
+                postModels.Add(postModel);
+            }
+
+            profile.Posts = postModels;
 
             if (profile.Id == currentUserId)
             {

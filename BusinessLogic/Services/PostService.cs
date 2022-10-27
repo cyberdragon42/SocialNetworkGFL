@@ -1,4 +1,6 @@
-﻿using BusinessLogic.Interfaces;
+﻿using AutoMapper;
+using BusinessLogic.Dto;
+using BusinessLogic.Interfaces;
 using Domain.Context;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -13,9 +15,11 @@ namespace BusinessLogic.Services
     public class PostService: IPostService
     {
         private readonly SocialNetworkContext context;
-        public PostService(SocialNetworkContext context)
+        private readonly IMapper mapper;
+        public PostService(SocialNetworkContext context, IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
         public void CreatePost(Post post)
@@ -24,30 +28,43 @@ namespace BusinessLogic.Services
             context.SaveChanges();
         }
 
-        public Post GetPost(string postId)
+        public void DislikePost(string postId, string currentUserId)
+        {
+            var like = context.Likes
+                .Where(l => l.PostId == postId && l.UserId == currentUserId)
+                .FirstOrDefault();
+            context.Likes.Remove(like);
+            context.SaveChanges();
+        }
+
+        public PostModel GetPost(string postId, string currentUserId)
         {
             var post = context.Posts
                 .Include(p=>p.User)
+                .Include(p=>p.Likes)
                 .Include(p => p.Comments.OrderBy(c=>c.Date))
                 .ThenInclude(c=>c.User)
                 .Where(p=>p.Id==postId)
                 .FirstOrDefault();
-           
-            return post;
+
+            var postModel = mapper.Map<Post, PostModel>(post);
+            postModel.isLiked = postModel.Likes.Any(l => l.UserId == currentUserId);
+
+            return postModel;
         }
 
-        public IEnumerable<Post> GetUserPosts(string currentUserId)
+        public IEnumerable<PostModel> GetUserPosts(string currentUserId)
         {
             var user = context.Users
                 .Include(u => u.Posts)
-                .Include(p => p.Likes)
+                .ThenInclude(p => p.Likes)
                 .Include(p => p.Comments)
                 .FirstOrDefault(u => u.Id == currentUserId);
 
             var followings = context.Users.
                     Include(u=>u.Followers)
                     .Include(u => u.Posts)
-                    .Include(p => p.Likes)
+                    .ThenInclude(p => p.Likes)
                     .Include(p => p.Comments)
                 .Where(u => u.Followers.Any(f=>f.FollowerId== currentUserId));
 
@@ -61,7 +78,27 @@ namespace BusinessLogic.Services
                 }
             }
 
-            return posts.Distinct().OrderByDescending(p => p.Date);
+            var postModels = new List<PostModel>();
+            foreach(var p in posts)
+            {
+                var postModel = mapper.Map<Post, PostModel>(p);
+                postModel.isLiked = p.Likes.Any(l => l.UserId == currentUserId);
+                postModels.Add(postModel);
+            }
+
+            return postModels.Distinct().OrderByDescending(p => p.Date);
+        }
+
+        public void LikePost(string postId, string currentUserId)
+        {
+            var like = new Like
+            {
+                UserId = currentUserId,
+                PostId = postId
+            };
+
+            context.Likes.Add(like);
+            context.SaveChanges();
         }
     }
 }

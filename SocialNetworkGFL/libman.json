@@ -8,6 +8,11 @@
       "files": [
         "dist/browser/signalr.min.js"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "font-awesome@6.2.0",
+      "destination": "wwwroot/css/font-awesome/"
     }
   ]
 }
