@@ -12,6 +12,7 @@ using BusinessLogic.Services;
 using BusinessLogic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using SocialNetworkGFL.Helpers;
+using BusinessLogic.Dto;
 
 namespace SocialNetworkGFL.Controllers
 {
@@ -56,18 +57,23 @@ namespace SocialNetworkGFL.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public IActionResult Search()
-        {
-            return View();
-        }
+        //[HttpGet]
+        //public IActionResult Search()
+        //{
+        //    return View();
+        //}
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Search(string keyword)
         {
             var id = HttpContext.GetIdFromCurrentUser();
             var users = await userService.FindUsers(keyword, id);
-            return View(users);
+            var model = new SearchModel
+            {
+                Keyword=keyword,
+                Users=users
+            };
+            return View(model);
         }
 
         public IActionResult Privacy()
