@@ -4,12 +4,50 @@
     ViewData["Title"] = "Search";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<form asp-controller="Home" asp-action="search">
+    <input type="text" name="keyword" />
+    <input type="submit" value="Search" class="btn btn-primary" />
+</form>
 
-<h1>Search</h1>
-@foreach(var item in Model)
- {
-    <h3>@item.Name</h3>
-    <p>@item.UserName</p>
-    <hr />
- }
+@if (Model == null)
+{
+}
+else
+{
+    @foreach (var item in Model)
+    {
+        <div>
+            @await Html.PartialAsync("_Avatar", item.AvatarId + item.AvatarExtension)
+            <h3>
+                @item.Name
+                @if (item.IsFollower)
+                {
+                    <span class="badge badge-primary">
+                        follows you
+                    </span>
+                }
+            </h3>
+            <a asp-controller="Profile"
+               asp-action="Index" asp-route-id="@item.Id">@item.UserName</a>
+            @if (!item.IsFollowed)
+            {
+                <button class="btn btn-primary" id="followBtn" data-userId="@item.Id">
+                    <a asp-controller="Profile" class="textLink"
+                       asp-route-returnUrl="@Context.Request.Path"
+                       asp-action="Follow" asp-route-id=@item.Id>follow</a>
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-light border" id="unfollowBtn" data-userId="@item.Id">
+                    <a asp-controller="Profile" class="textLink"
+                       asp-route-returnUrl="@Context.Request.Path"
+                       asp-action="Unfollow" asp-route-id=@item.Id>unfollow</a>
+                </button>
+            }
+            <hr />
+        </div>
+    }
+}
+
 

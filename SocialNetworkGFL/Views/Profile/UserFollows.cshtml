@@ -12,29 +12,29 @@
 }
 else
 {
-<div>
-    @foreach (var item in Model)
-    {
-        @await Html.PartialAsync("_Avatar", item.AvatarId+item.AvatarExtension);
-    <h3>
-        @item.Name
-            @if (item.IsFollower)
-            {
-                <span class="badge badge-primary">
-                    follows you
-                </span>
-            }
-        </h3>
-        <a asp-controller="Profile"
-           asp-action="Index" asp-route-id="@item.Id">@item.UserName</a>
-        <button class="btn btn-light border">
-            <a asp-controller="Profile" class="textLink"
-               asp-route-returnUrl="@Context.Request.Path"
-               asp-action="Unfollow" asp-route-id=@item.Id>unfollow</a>
-        </button>
-        <hr />
-    }
-</div>
+    <div>
+        @foreach (var item in Model)
+        {
+            @await Html.PartialAsync("_Avatar", item.AvatarId + item.AvatarExtension);
+            <h3>
+                @item.Name
+                @if (item.IsFollower)
+                {
+                    <span class="badge badge-primary">
+                        follows you
+                    </span>
+                }
+            </h3>
+            <a asp-controller="Profile"
+               asp-action="Index" asp-route-id="@item.Id">@item.UserName</a>
+            <button class="btn btn-light border" id="unfollowBtn" data-userId=@item.Id>
+                <a asp-controller="Profile" class="textLink"
+                   asp-route-returnUrl="@Context.Request.Path"
+                   asp-action="Unfollow" asp-route-id=@item.Id>unfollow</a>
+            </button>
+            <hr />
+        }
+    </div>
 }
 
 

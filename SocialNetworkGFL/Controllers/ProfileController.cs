@@ -24,16 +24,19 @@ namespace SocialNetworkGFL.Controllers
         private readonly IPostService postService;
         private readonly ICommentService commentService;
         private readonly IWebHostEnvironment appEnvironment;
+        private readonly INotificationService notificationService;
         private readonly SocialNetworkContext context;
 
         public ProfileController(IUserService userService, IPostService postService,
-            ICommentService commentService, IWebHostEnvironment appEnvironment,
+            ICommentService commentService, INotificationService notificationService,
+            IWebHostEnvironment appEnvironment,
             SocialNetworkContext context
             )
         {
             this.userService = userService;
             this.postService = postService;
             this.commentService = commentService;
+            this.notificationService = notificationService;
             this.appEnvironment = appEnvironment;
             this.context = context;
         }
@@ -106,6 +109,13 @@ namespace SocialNetworkGFL.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> Notifications()
+        {
+            var id = HttpContext.GetIdFromCurrentUser();
+            var notifications = await notificationService.GetUserNotifications(id);
+            return View(notifications);
         }
 
         [HttpGet]

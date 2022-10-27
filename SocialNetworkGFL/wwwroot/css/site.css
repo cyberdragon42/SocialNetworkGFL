@@ -66,6 +66,11 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+
+.receivedNotification{
+    color: dimgrey;
+}
+
 .footer {
   position: absolute;
   bottom: 0;

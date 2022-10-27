@@ -56,6 +56,11 @@ namespace BusinessLogic.Services
 
             var profile = mapper.Map<User, ProfileModel>(user);
 
+            if (profile.Id == currentUserId)
+            {
+                profile.IsOwnProfile = true;
+            }
+
             if(await IsFollower(currentUserId, userId))
             {
                 profile.IsFollower = true;
@@ -113,12 +118,19 @@ namespace BusinessLogic.Services
             return followers;
         }
 
-        public async Task<IEnumerable<ProfileModel>> FindUsers(string keyword)
+        public async Task<IEnumerable<ProfileModel>> FindUsers(string keyword, string currentUserId)
         {
             var users = await context.Users.Where(
                 u => u.Name.Contains(keyword) || u.UserName.Contains(keyword))
                 .Select(user=> mapper.Map<User, ProfileModel>(user))
                 .ToListAsync();
+
+            for (var i = 0; i < users.Count; ++i)
+            {
+                users[i].IsFollower = await IsFollower(currentUserId, users[i].Id);
+                users[i].IsFollowed = await IsFollowing(currentUserId, users[i].Id);
+                users[i].IsOwnProfile = users[i].Id == currentUserId;
+            }
 
             return users;
         }

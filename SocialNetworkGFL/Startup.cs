@@ -16,6 +16,7 @@ using BusinessLogic.Interfaces;
 using System.Globalization;
 using Microsoft.AspNetCore.Identity;
 using Domain.Models;
+using SocialNetworkGFL.Hubs;
 
 namespace SocialNetworkGFL
 {
@@ -42,9 +43,11 @@ namespace SocialNetworkGFL
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<INotificationService, NotificationService>();
             services.AddControllersWithViews()
                 .AddDataAnnotationsLocalization()
                 .AddViewLocalization();
+            services.AddSignalR();
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
@@ -89,6 +92,7 @@ namespace SocialNetworkGFL
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<NotificationsHub>("/notify");
             });
         }
     }

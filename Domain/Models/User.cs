@@ -18,6 +18,7 @@ namespace Domain.Models
         public ICollection<Subscription> Followers { get; set; }
         public ICollection<Subscription> Followings { get; set; }
         public ICollection<Comment> Comments { get; set; }
+        public ICollection<Notification> Notifications { get; set; }
         //public Avatar Avatar { get; set; }
         //public string AvatarId { get; set; }
     }

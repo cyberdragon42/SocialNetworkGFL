@@ -21,5 +21,6 @@ namespace BusinessLogic.Dto
 
         public bool IsFollower { get; set; }
         public bool IsFollowed { get; set; }
+        public bool IsOwnProfile { get; set; }
     }
 }

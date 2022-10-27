@@ -16,6 +16,6 @@ namespace BusinessLogic.Interfaces
         Task UnfollowUser(string currentUserId, string userId);
         Task<IEnumerable<ProfileModel>> GetUserFollows(string currentUserId);
         Task<IEnumerable<ProfileModel>> GetUserFollowers(string currentUserId);
-        Task<IEnumerable<ProfileModel>> FindUsers(string keyword);
+        Task<IEnumerable<ProfileModel>> FindUsers(string keyword, string currentUserId);
     }
 }

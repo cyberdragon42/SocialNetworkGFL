@@ -34,6 +34,7 @@ namespace SocialNetworkGFL.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            ViewBag.Notifications = "hi";
             var id = HttpContext.GetIdFromCurrentUser();
             var posts = postService.GetUserPosts(id);
             return View(posts);
@@ -64,10 +65,10 @@ namespace SocialNetworkGFL.Controllers
         [HttpPost]
         public async Task<IActionResult> Search(string keyword)
         {
-            var users = await userService.FindUsers(keyword);
+            var id = HttpContext.GetIdFromCurrentUser();
+            var users = await userService.FindUsers(keyword, id);
             return View(users);
         }
-
 
         public IActionResult Privacy()
         {

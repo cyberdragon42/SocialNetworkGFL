@@ -9,15 +9,6 @@
 
 <div class="text-center">
     @await Html.PartialAsync("_Avatar", avatar)
-    @*@if (!string.IsNullOrEmpty(@avatar))
-        {
-            <img src="~/Avatars/@Model.AvatarId@Model.AvatarExtension" alt="~/Avatars/@Model.AvatarId@Model.AvatarExtension" />
-        }
-        else
-        {
-            <img src="~/images/istockphoto-1300845620-612x612.jpg" />
-        }*@
-
     <h1>
         @Model.Name
         @if (Model.IsFollower)
@@ -28,26 +19,33 @@
         }
     </h1>
     <p>@Model.UserName</p>
-    @if (!Model.IsFollowed)
+    @if (Model.IsOwnProfile)
     {
-        <button class="btn btn-primary">
-            <a asp-controller="Profile" class="textLink"
-               asp-route-returnUrl="@Context.Request.Path"
-               asp-action="Follow" asp-route-id=@Model.Id>
-                follow
-            </a>
-        </button>
+        <a asp-action="Edit">Edit</a>
     }
+
     else
     {
-        <button class="btn btn-light">
-            <a asp-controller="Profile" class="textLink"
-               asp-route-returnUrl="@Context.Request.Path"
-               asp-action="Unfollow" asp-route-id=@Model.Id>unfollow</a>
-        </button>
+        @if (!Model.IsFollowed)
+        {
+            <button class="btn btn-primary">
+                <a asp-controller="Profile" class="textLink"
+                   asp-route-returnUrl="@Context.Request.Path"
+                   asp-action="Follow" asp-route-id=@Model.Id>
+                    follow
+                </a>
+            </button>
+        }
+        else
+        {
+            <button class="btn btn-light">
+                <a asp-controller="Profile" class="textLink"
+                   asp-route-returnUrl="@Context.Request.Path"
+                   asp-action="Unfollow" asp-route-id=@Model.Id>unfollow</a>
+            </button>
+        }
     }
-    <a asp-action="Edit">Edit</a>
-    <hr/>
+    <hr />
 </div>
 
 <div>

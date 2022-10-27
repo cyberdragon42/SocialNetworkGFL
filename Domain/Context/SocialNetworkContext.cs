@@ -16,6 +16,7 @@ namespace Domain.Context
         public DbSet<Like> Likes { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         public SocialNetworkContext(DbContextOptions<SocialNetworkContext> options)
         : base(options) { }
@@ -72,6 +73,14 @@ namespace Domain.Context
                 x.HasOne(y => y.User)
                 .WithMany(z => z.Posts)
                 .HasForeignKey(y => y.UserId);
+            });
+
+            modelBuilder.Entity<Notification>(x =>
+            {
+                x.Property(y => y.Id).HasDefaultValueSql("NEWID()");
+                x.HasOne(y => y.Reciever)
+                .WithMany(z => z.Notifications)
+                .HasForeignKey(y => y.RecieverId);
             });
 
             //modelBuilder.Entity<Avatar>(x =>

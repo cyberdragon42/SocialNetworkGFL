@@ -39,6 +39,15 @@
                             <a class="nav-link text-dark" asp-area=""
                                asp-controller="Profile" asp-action="UserFollowers">@Localizer["Followers"]</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area=""
+                               asp-controller="Profile" asp-action="Notifications">
+                                Notifications
+                                <span class="badge badge-primary" id="notificationBadge">
+                                    0
+                                </span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -56,25 +65,29 @@
                         else
                         {
                             <li class="nav-item">
-                               <div>
-                                   <a class="nav-link text-dark" asp-area=""
-                                      asp-controller="Account" asp-action="Login">@Localizer["Login"]</a>
-                               </div> 
+                                <div>
+                                    <a class="nav-link text-dark" asp-area=""
+                                       asp-controller="Account" asp-action="Login">@Localizer["Login"]</a>
+                                </div>
                             </li>
                         }
                         <li class="nav-item">
                             @await Html.PartialAsync("_SelectLanguage")
                         </li>
                         <li>
-                            <form asp-controller="Home" asp-action="search">
+                            @*<form asp-controller="Home" asp-action="search">
                                 <input type="text" name="keyword" />
                                 <input type="submit" value="Search" class="btn btn-primary" />
-                            </form>
+                            </form>*@
+                            <div>
+                                <a class="nav-link text-dark" asp-area=""
+                                   asp-controller="Home" asp-action="Search">Search</a>
+                            </div>
                         </li>
                     </ul>
-                    </div>
                 </div>
-</nav>
+            </div>
+        </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -90,6 +103,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/signalr/notificationscript.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
