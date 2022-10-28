@@ -132,7 +132,13 @@
   <data name="Logout" xml:space="preserve">
     <value>Вийти</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Сповіщення</value>
+  </data>
   <data name="Profile" xml:space="preserve">
     <value>Профіль</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Пошук</value>
   </data>
 </root>

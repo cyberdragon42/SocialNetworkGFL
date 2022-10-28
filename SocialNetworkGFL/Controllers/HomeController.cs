@@ -57,12 +57,6 @@ namespace SocialNetworkGFL.Controllers
             return RedirectToAction("Index");
         }
 
-        //[HttpGet]
-        //public IActionResult Search()
-        //{
-        //    return View();
-        //}
-
         [HttpGet]
         public async Task<IActionResult> Search(string keyword)
         {

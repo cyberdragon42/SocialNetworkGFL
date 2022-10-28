@@ -137,7 +137,6 @@ namespace SocialNetworkGFL.Controllers
                     .Where(x => x.Id == userId)
                     .FirstOrDefault();
 
-                //var file = data["avatar"];
                 if (avatar != null)
                 {
                     var guidFileName = Guid.NewGuid();

@@ -21,18 +21,22 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                <i class="fa fa-home"></i>
-                @Localizer["Home"]</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <span><i class="fa fa-home"></i></span>
+                    @Localizer["Home"]
+                }
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <li class="nav-item active">
                             <a class="nav-link text-dark" asp-area=""
                                asp-controller="Profile" asp-action="Index">@Localizer["Profile"]</a>
                         </li>
@@ -47,55 +51,47 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area=""
                                asp-controller="Profile" asp-action="Notifications">
-                                Notifications
+                                @Localizer["Notifications"]
                                 <span class="badge badge-primary" id="notificationBadge">
                                     0
                                 </span>
                             </a>
                         </li>
-                    </ul>
-                </div>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            <li class="nav-item">
-                                <div>
-                                    <a class="nav-link text-dark" asp-area=""
-                                       asp-controller="Account" asp-action="Logout">@Localizer["Logout"]</a>
-                                </div>
-                            </li>
-                        }
+                    }
 
-                        else
-                        {
-                            <li class="nav-item">
-                                <div>
-                                    <a class="nav-link text-dark" asp-area=""
-                                       asp-controller="Account" asp-action="Login">@Localizer["Login"]</a>
-                                </div>
-                            </li>
-                        }
-                        <li class="nav-item">
-                            @await Html.PartialAsync("_SelectLanguage")
-                        </li>
-                        <li>
-                            @*<form asp-controller="Home" asp-action="search">
-                                <input type="text" name="keyword" />
-                                <input type="submit" value="Search" class="btn btn-primary" />
-                            </form>*@
-                            <div>
-                                <a class="nav-link text-dark" asp-area=""
-                                   asp-controller="Home" asp-action="Search">
-                                Search</a>
-                            </div>
-                        </li>
-                    </ul>
+                </ul>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <div>
+                        <button class="btn btn-primary">
+                            <a class="textLink btnTextLight" asp-area=""
+                               asp-controller="Account" asp-action="Logout">@Localizer["Logout"]</a>
+                        </button>
+                    </div>
+                }
+
+                else
+                {
+            <div>
+                <button class="btn btn-primary">
+                    <a class="textLink btnTextLight"  asp-area=""
+                       asp-controller="Account" asp-action="Login">@Localizer["Login"]</a>
+                </button>
+            </div>
+                }
+                <div class="navbar-text">
+                    <a class="nav-link text-dark" asp-area=""
+                       asp-controller="Home" asp-action="Search">
+                    <span><i class="fa fa-search"></i></span>
+                    @Localizer["Search"]</a>
+                </div>
+                <div>
+                    @await Html.PartialAsync("_SelectLanguage")
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container bodyContainer">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

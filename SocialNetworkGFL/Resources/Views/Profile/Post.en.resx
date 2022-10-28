@@ -123,4 +123,7 @@
   <data name="AddCommentButton" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="CommentPlaceholder" xml:space="preserve">
+    <value>Add comment</value>
+  </data>
 </root>

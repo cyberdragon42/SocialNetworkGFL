@@ -1,8 +1,6 @@
 ﻿.postContainer {
-    /*background-color: lightgreen;*/
     display: grid;
     grid-template-columns: 1fr 5fr;
-    /*border: 1px solid green;*/
 }
 
 .postStats {
@@ -20,18 +18,13 @@
     color: black;
 }
 
-/*
-.postContent a{
-    background-color: red;
-    width: stretch;
-}*/
+.btnTextLight{
+    color: white;
+}
 
-
-/*img {
-    height: 100px;
-    min-width: 100px;
-    border-radius: 50%;
-}*/
+.btnTextDark{
+    color: black;
+}
 
 .avatar {
     height: 100px;
@@ -43,4 +36,26 @@
     height:40px;
     width: 40px;
     border-radius: 15%
+}
+
+.bodyContainer{
+    margin-top: 100px;
+}
+
+.editFormContainer {
+    max-width: 450px;
+    align-content: center;
+}
+
+.postInputContainer{
+    max-width: 450px;
+}
+
+.searchFormContainer {
+    max-width: 450px;
+}
+
+.searchForm{
+    margin-top: 20px;
+    margin-bottom: 20px;
 }

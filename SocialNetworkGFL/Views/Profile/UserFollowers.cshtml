@@ -5,10 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Followers: @Model.Count()</h2>
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+<h2>@Localizer["Followers"]: @Model.Count()</h2>
 @if (Model.Count() == 0)
 {
-    <p>No one follows you yet</p>
+    @Localizer["NoFollowersMessage"]
 }
 else
 {
@@ -20,7 +24,7 @@ else
                 <h3>
                     @item.Name
                     <span class="badge badge-primary">
-                        follows you
+                        @Localizer["FollowsYou"]
                     </span>
                 </h3>
                 <a asp-controller="Profile"
@@ -30,7 +34,7 @@ else
                     <button class="btn btn-primary" id="followBtn" data-userId="@item.Id">
                         <a asp-controller="Profile" class="textLink"
                            asp-route-returnUrl="@Context.Request.Path"
-                           asp-action="Follow" asp-route-id=@item.Id>follow</a>
+                           asp-action="Follow" asp-route-id=@item.Id>@Localizer["Follow"]</a>
                     </button>
                 }
                 else
@@ -38,7 +42,7 @@ else
                     <button class="btn btn-light border" id="unfollowBtn" data-userId="@item.Id">
                         <a asp-controller="Profile" class="textLink"
                            asp-route-returnUrl="@Context.Request.Path"
-                           asp-action="Unfollow" asp-route-id=@item.Id>unfollow</a>
+                           asp-action="Unfollow" asp-route-id=@item.Id>@Localizer["Unfollow"]</a>
                     </button>
                 }
                 <hr />

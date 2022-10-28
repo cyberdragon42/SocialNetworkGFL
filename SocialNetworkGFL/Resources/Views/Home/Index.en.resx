@@ -123,4 +123,7 @@
   <data name="AddPostButton" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="AddPostPlaceholder" xml:space="preserve">
+    <value>Share your thoughts</value>
+  </data>
 </root>

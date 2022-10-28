@@ -4,8 +4,12 @@
 
 @model BusinessLogic.Dto.ProfileModel
 @{
-    var avatar = Model.AvatarId+Model.AvatarExtension;
+    var avatar = Model.AvatarId + Model.AvatarExtension;
 }
+
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
 
 <div class="text-center">
     @await Html.PartialAsync("_Avatar", avatar)
@@ -14,14 +18,18 @@
         @if (Model.IsFollower)
         {
             <span class="badge badge-primary">
-                follows you
+                @Localizer["FollowsYou"]
             </span>
         }
     </h1>
     <p>@Model.UserName</p>
     @if (Model.IsOwnProfile)
     {
-        <a asp-action="Edit">Edit</a>
+        <a asp-action="Edit">
+            <span>
+                <i class="fa fa-edit"></i>
+            </span>@Localizer["Edit"]
+        </a>
     }
 
     else
@@ -32,7 +40,7 @@
                 <a asp-controller="Profile" class="textLink"
                    asp-route-returnUrl="@Context.Request.Path"
                    asp-action="Follow" asp-route-id=@Model.Id>
-                    follow
+                    @Localizer["Follow"]
                 </a>
             </button>
         }
@@ -41,7 +49,7 @@
             <button class="btn btn-light">
                 <a asp-controller="Profile" class="textLink"
                    asp-route-returnUrl="@Context.Request.Path"
-                   asp-action="Unfollow" asp-route-id=@Model.Id>unfollow</a>
+                   asp-action="Unfollow" asp-route-id=@Model.Id>@Localizer["Unfollow"]</a>
             </button>
         }
     }

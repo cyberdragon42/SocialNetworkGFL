@@ -9,7 +9,6 @@
 
 <div>
     <div class="postContainer">
-        @*<img src="~/images/istockphoto-1300845620-612x612.jpg" />*@
         @await Html.PartialAsync("_Avatar", avatar)
         <div>
             <h3>@Model.User.Name</h3>
@@ -30,8 +29,6 @@
                                asp-controller="Post"
                                asp-route-returnUrl="@requestUrl"
                                asp-route-postId="@Model.Id">
-                                @*<img src="~/images/dislikeIcon.png" 
-                                     class="likeIcon"/>*@
                                 <span>
                                     <i class="fa fa-heart fa-2x"></i>
                                 </span>
@@ -43,9 +40,8 @@
                                asp-controller="Post"
                                asp-route-returnUrl="@requestUrl"
                                asp-route-postId="@Model.Id">
-                                @*<img src="~/images/likeIcon.png" class="likeIcon"/>*@
                                 <span>
-                                    <i class="fa fa-heart fa-2x" style="color:dimgrey"></i>
+                                    <i class="fa fa-heart fa-2x" style="color:lightgray"></i>
                                 </span>
                             </a>
                     }
@@ -61,7 +57,6 @@
 
                 </span>
                 <span>
-                    @*@Localizer["Comments"]:*@
                     <span>
                         <i class="fa fa-comment fa-2x"></i>
                     </span>

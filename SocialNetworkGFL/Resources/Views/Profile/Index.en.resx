@@ -117,13 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddPost" xml:space="preserve">
-    <value>Додати пост</value>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
   </data>
-  <data name="AddPostButton" xml:space="preserve">
-    <value>Додати</value>
+  <data name="Follow" xml:space="preserve">
+    <value>Follow</value>
   </data>
-  <data name="AddPostPlaceholder" xml:space="preserve">
-    <value>Поділіться своїми враженнями</value>
+  <data name="FollowsYou" xml:space="preserve">
+    <value>Follows you</value>
+  </data>
+  <data name="Unfollow" xml:space="preserve">
+    <value>Unfollow</value>
   </data>
 </root>

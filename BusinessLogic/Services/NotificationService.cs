@@ -40,11 +40,6 @@ namespace BusinessLogic.Services
                 .Take(30)
                 .ToListAsync();
 
-            //var tempArray = new Notification[updatedNotifications.Count];
-            //updatedNotifications.CopyTo(tempArray);
-
-            //var userNotifications = tempArray.ToList();
-
             foreach (var n in notifications)
             {
                 n.IsReceived = true;

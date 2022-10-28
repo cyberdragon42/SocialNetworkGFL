@@ -4,7 +4,6 @@
 
 hubConnection.on("SendNotification", 
     function (notificationsCount) {
-        alert(notificationsCount);
         document.getElementById("notificationBadge").textContent = notificationsCount;
 });
 

@@ -8,12 +8,12 @@
 
 @model IEnumerable<BusinessLogic.Dto.PostModel>
 
-<div class="row">
-    <form asp-action="Index">
+<div>
+    <form asp-action="Index" class="postInputContainer">
         <fieldset>
             <legend>@Localizer["AddPost"]</legend>
             <div class="form-group">
-                <input type="text" name="content" class="form-control" value="" />
+                <textarea class="form-control" name="content" rows="3" value="" placeholder="@Localizer["AddPostPlaceholder"]"></textarea>
             </div>
             <div>
                 <label>&nbsp;</label>
