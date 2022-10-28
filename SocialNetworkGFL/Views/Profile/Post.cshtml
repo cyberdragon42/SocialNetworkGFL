@@ -32,7 +32,7 @@
                asp-action="Index" asp-route-id="@item.User.Id">@item.User.UserName
             </a>
             <p>@item.Content</p>
-            <p>@item.Date</p>
+            <p>@item.Date.ToLocalTime()</p>
             <hr />
         }
     </div>

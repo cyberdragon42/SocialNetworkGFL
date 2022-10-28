@@ -3,6 +3,7 @@
 @{ 
     var avatar = Model.User.AvatarId + Model.User.AvatarExtension;
     var requestUrl = Context.Request.Path;
+    var date = Model.Date.ToLocalTime();
 }
 
 @inject IViewLocalizer Localizer
@@ -69,7 +70,10 @@
                         @Model.Comments.Count
                     }
                 </span>
-                <p><i>@Model.Date</i></p>
+                <p><i>
+                       @date
+                   </i>
+                </p>
                 <hr />
             </div>
         </div>
