@@ -60,11 +60,14 @@ namespace SocialNetworkGFL.Hubs
 
             await notificationService.CreateNotification(notificationForReceiver);
             await notificationService.CreateNotification(notificationForSender);
-            var senderNotificationCount = await notificationService.GetUnreadNotificationsCount(currentUserId);
-            var receiverNotificationCount = await notificationService.GetUnreadNotificationsCount(userId);
 
-            await Clients.Caller.SendAsync("SendNotification", senderNotificationCount);
-            await Clients.Others.SendAsync("SendNotification", receiverNotificationCount);
+            var result = await Task.WhenAll(notificationService.GetUnreadNotificationsCount(currentUserId),
+                notificationService.GetUnreadNotificationsCount(userId));
+
+            await Task.WhenAll(
+                Clients.Caller.SendAsync("SendNotification", result[0]),
+                Clients.Others.SendAsync("SendNotification", result[1])
+                );
         }
     }
 }
