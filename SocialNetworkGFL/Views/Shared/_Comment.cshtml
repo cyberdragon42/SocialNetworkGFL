@@ -1,0 +1,12 @@
+﻿@model Domain.Models.Comment
+
+<div>
+    <h4>@Model.User.Name</h4>
+    <a asp-controller="Profile"
+       asp-action="Index" asp-route-id="@Model.User.Id">
+        @Model.User.UserName
+    </a>
+    <p>@Model.Content</p>
+    <p>@Model.Date.ToLocalTime()</p>
+    <hr />
+</div>

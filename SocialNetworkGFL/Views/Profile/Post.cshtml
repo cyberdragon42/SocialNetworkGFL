@@ -27,13 +27,14 @@
     <div>
         @foreach (var item in Model.Comments)
         {
-            <h4>@item.User.Name</h4>
+            @await Html.PartialAsync("_Comment", item)
+            @*<h4>@item.User.Name</h4>
             <a asp-controller="Profile"
                asp-action="Index" asp-route-id="@item.User.Id">@item.User.UserName
             </a>
             <p>@item.Content</p>
             <p>@item.Date.ToLocalTime()</p>
-            <hr />
+            <hr />*@
         }
     </div>
 </div>

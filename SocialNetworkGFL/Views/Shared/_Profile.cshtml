@@ -1,0 +1,39 @@
+﻿@model BusinessLogic.Dto.ProfileModel
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+
+<div>
+    @await Html.PartialAsync("_Avatar", @Model.AvatarId + @Model.AvatarExtension)
+    <h3>
+        @Model.Name
+        @if (@Model.IsFollower)
+        {
+            <span class="badge badge-primary">
+                @Localizer["FollowsYou"]
+            </span>
+        }
+    </h3>
+    <a asp-controller="Profile"
+       asp-action="Index" asp-route-id="@Model.Id">@Model.UserName</a>
+    @if (!@Model.IsFollowed)
+    {
+        <button class="btn btn-primary" id="followBtn" data-userId="@Model.Id">
+            <a asp-controller="Profile" class="textLink"
+               asp-route-returnUrl="@Context.Request.Path"
+               asp-action="Follow" asp-route-id=@Model.Id>@Localizer["Follow"]</a>
+        </button>
+    }
+    else
+    {
+        <button class="btn btn-light border" id="unfollowBtn" data-userId="@Model.Id">
+            <a asp-controller="Profile" class="textLink"
+               asp-route-returnUrl="@Context.Request.Path"
+               asp-action="Unfollow" asp-route-id=@Model.Id>@Localizer["Unfollow"]</a>
+        </button>
+    }
+    <hr />
+</div>
+
+

@@ -19,7 +19,10 @@ else
     <div>
         @foreach (var item in Model)
         {
-            @await Html.PartialAsync("_Avatar", item.AvatarId + item.AvatarExtension);
+        <div>
+            @await Html.PartialAsync("_Profile", item)
+        </div>
+            @*@await Html.PartialAsync("_Avatar", item.AvatarId + item.AvatarExtension);
             <h3>
                 @item.Name
                 @if (item.IsFollower)
@@ -36,7 +39,7 @@ else
                    asp-route-returnUrl="@Context.Request.Path"
                    asp-action="Unfollow" asp-route-id=@item.Id>@Localizer["Unfollow"]</a>
             </button>
-            <hr />
+            <hr />*@
         }
     </div>
 }

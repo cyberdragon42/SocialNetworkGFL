@@ -106,6 +106,7 @@ namespace BusinessLogic.Services
             for(var i=0; i < follows.Count; ++i)
             {
                 follows[i].IsFollower = await IsFollower(currentUserId, follows[i].Id);
+                follows[i].IsFollowed = true;
             }
 
             return follows;

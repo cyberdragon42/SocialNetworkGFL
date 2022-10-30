@@ -30,6 +30,10 @@ else
     @foreach (var item in Model.Users)
     {
         <div>
+            @await Html.PartialAsync("_Profile", item)
+        </div>
+     
+        @*<div>
             @await Html.PartialAsync("_Avatar", item.AvatarId + item.AvatarExtension)
             <h3>
                 @item.Name
@@ -59,7 +63,7 @@ else
                 </button>
             }
             <hr />
-        </div>
+        </div>*@
     }
 }
 
