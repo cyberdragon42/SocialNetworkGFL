@@ -57,6 +57,17 @@
                                 </span>
                             </a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                ...
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" asp-controller="Post" 
+                                   asp-action="LikedPosts">My liked posts</a>
+                                <a class="dropdown-item" asp-controller="Post"
+                                   asp-action="UserComments">My comments</a>
+                            </div>
+                        </li>
                     }
 
                 </ul>

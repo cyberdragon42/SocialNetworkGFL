@@ -1,0 +1,6 @@
+﻿@model IEnumerable<BusinessLogic.Dto.PostModel>
+
+@foreach (var item in Model)
+{
+    @await Html.PartialAsync("../Shared/_Post.cshtml", item)
+}

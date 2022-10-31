@@ -89,6 +89,24 @@ namespace BusinessLogic.Services
             return postModels.Distinct().OrderByDescending(p => p.Date);
         }
 
+        public IEnumerable<PostModel> LikedPosts(string currentUserId)
+        {
+            var likedPosts = context.Posts
+                .Include(p => p.Likes)
+                .Include(p=>p.User)
+                .Include(p=>p.Comments)
+                .Where(p => p.Likes.Any(l => l.UserId == currentUserId));
+
+            var likedPostModels = new List<PostModel>();
+            foreach(var p in likedPosts)
+            {
+                var postModel = mapper.Map<Post, PostModel>(p);
+                postModel.isLiked = true;
+                likedPostModels.Add(postModel);
+            }
+            return likedPostModels;
+        }
+
         public void LikePost(string postId, string currentUserId)
         {
             var like = new Like
@@ -99,6 +117,16 @@ namespace BusinessLogic.Services
 
             context.Likes.Add(like);
             context.SaveChanges();
+        }
+
+        public IEnumerable<Comment> UserComments(string currentUserId)
+        {
+            var comments = context.Comments
+                .Where(c => c.UserId == currentUserId)
+                .Include(c=>c.User)
+                .Include(c => c.Post);
+
+            return comments;
         }
     }
 }

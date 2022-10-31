@@ -32,6 +32,19 @@ namespace SocialNetworkGFL.Controllers
             return LocalRedirect(returnUrl);
         }
 
+        [HttpGet]
+        public IActionResult LikedPosts()
+        {
+            var currentUserId = HttpContext.GetIdFromCurrentUser();
+            var posts = postService.LikedPosts(currentUserId);
+            return View(posts);
+        }
 
+        public IActionResult UserComments()
+        {
+            var currentUserId = HttpContext.GetIdFromCurrentUser();
+            var comments = postService.UserComments(currentUserId);
+            return View(comments);
+        }
     }
 }

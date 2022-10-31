@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Domain.Models.Comment>
+
+@foreach (var item in Model)
+{
+    <a class="badge badge-primary"
+       asp-controller="Profile"
+       asp-action="Post" asp-route-id="@item.PostId">
+        go to post
+    </a>
+    <div>
+        @await Html.PartialAsync("_Comment", item)
+    </div>
+}

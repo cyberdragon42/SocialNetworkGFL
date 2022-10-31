@@ -17,6 +17,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Identity;
 using Domain.Models;
 using SocialNetworkGFL.Hubs;
+using Microsoft.AspNetCore.Http;
 
 namespace SocialNetworkGFL
 {
@@ -70,8 +71,8 @@ namespace SocialNetworkGFL
         {
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
-                app.UseExceptionHandler("/Home/Error");
+                app.UseDeveloperExceptionPage();
+                //app.UseExceptionHandler("/Home/Error");
             }
             else
             {
