@@ -53,40 +53,39 @@ namespace BusinessLogic.Services
             return postModel;
         }
 
-        public IEnumerable<PostModel> GetUserPosts(string currentUserId)
+        public IEnumerable<PostModel> GetUserFeed(string currentUserId)
         {
             var user = context.Users
+                .Include(u=>u.Followings)
+                .ThenInclude(f=>f.Following)
+             .Include(u => u.Posts)
+             .ThenInclude(p => p.Likes)
                 .Include(u => u.Posts)
-                .ThenInclude(p => p.Likes)
-                .Include(p => p.Comments)
+             .ThenInclude(p => p.Comments)
                 .FirstOrDefault(u => u.Id == currentUserId);
 
             var followings = context.Users.
-                    Include(u=>u.Followers)
+                    Include(u => u.Followers)
                     .Include(u => u.Posts)
-                    .ThenInclude(p => p.Likes)
-                    .Include(p => p.Comments)
-                .Where(u => u.Followers.Any(f=>f.FollowerId== currentUserId));
+                        .ThenInclude(p => p.Likes)
+                    .Include(u => u.Posts)
+                        .ThenInclude(p => p.Comments)
+                .Where(u => u.Followers.Any(f => f.FollowerId == currentUserId));
 
-            var posts = user.Posts.ToList();
 
-            if (followings != null)
-            {
-                foreach (var f in followings)
-                {
-                    posts = posts.Concat(f.Posts).ToList();
-                }
-            }
+            var allPosts = user.Posts.AsEnumerable().Union(
+                followings.SelectMany(f=>f.Posts
+                ));
 
             var postModels = new List<PostModel>();
-            foreach(var p in posts)
+            foreach (var p in allPosts)
             {
                 var postModel = mapper.Map<Post, PostModel>(p);
                 postModel.isLiked = p.Likes.Any(l => l.UserId == currentUserId);
                 postModels.Add(postModel);
             }
 
-            return postModels.Distinct().OrderByDescending(p => p.Date);
+            return postModels.OrderByDescending(p => p.Date);
         }
 
         public IEnumerable<PostModel> LikedPosts(string currentUserId)
@@ -127,6 +126,14 @@ namespace BusinessLogic.Services
                 .Include(c => c.Post);
 
             return comments;
+        }
+
+        public void Delete(string postId)
+        {
+            var post = context.Posts
+                .First(p => p.Id == postId);
+            context.Posts.Remove(post);
+            context.SaveChanges();
         }
     }
 }

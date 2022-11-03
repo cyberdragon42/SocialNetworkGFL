@@ -12,11 +12,12 @@ namespace BusinessLogic.Interfaces
     {
         public void CreatePost(Post post);
 
-        IEnumerable<PostModel> GetUserPosts(string currentUserId);
+        IEnumerable<PostModel> GetUserFeed(string currentUserId);
         PostModel GetPost(string postId, string currentUserId);
         void LikePost(string postId, string returnUrl);
         void DislikePost(string postId, string returnUrl);
         IEnumerable<PostModel> LikedPosts(string currentUserId);
         IEnumerable<Comment> UserComments(string currentUserId);
+        public void Delete(string postId);
     }
 }

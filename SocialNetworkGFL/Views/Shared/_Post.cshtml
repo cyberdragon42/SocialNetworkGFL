@@ -22,10 +22,10 @@
                         @Model.Content
                     </div>
                 </a>
-            <div class="postStats">
-                <span>
-                    @if (Model.isLiked)
-                    {
+                <div class="postStats">
+                    <span>
+                        @if (Model.isLiked)
+                        {
                             <a asp-action="DislikePost" class="textLink"
                                asp-controller="Post"
                                asp-route-returnUrl="@requestUrl"
@@ -34,9 +34,9 @@
                                     <i class="fa fa-heart fa-2x"></i>
                                 </span>
                             </a>
-                    }
-                    else
-                    {
+                        }
+                        else
+                        {
                             <a asp-action="LikePost" class="textLink"
                                asp-controller="Post"
                                asp-route-returnUrl="@requestUrl"
@@ -45,37 +45,53 @@
                                     <i class="fa fa-heart fa-2x" style="color:lightgray"></i>
                                 </span>
                             </a>
-                    }
+                        }
 
-                    @if (@Model.Likes == null)
-                    {
-                        <span>0</span>
-                    }
-                    else
-                    {
-                        @Model.Likes.Count
-                    }
+                        @if (@Model.Likes == null)
+                        {
+                            <span>0</span>
+                        }
+                        else
+                        {
+                            @Model.Likes.Count
+                        }
 
-                </span>
-                <span>
-                    <span>
-                        <i class="fa fa-comment fa-2x"></i>
                     </span>
-                    @if (@Model.Comments == null)
-                    {
-                        <span>0</span>
-                    }
-                    else
-                    {
-                        @Model.Comments.Count
-                    }
-                </span>
-                <p><i>
-                       @date
-                   </i>
-                </p>
-                <hr />
-            </div>
+                    <span>
+                        <span>
+                            <i class="fa fa-comment fa-2x"></i>
+                        </span>
+                        @if (@Model.Comments == null)
+                        {
+                            <span>0</span>
+                        }
+                        else
+                        {
+                            @Model.Comments.Count
+                        }
+                    </span>
+                    <p>
+                        <i>
+                            @date
+                        </i>
+                    </p>
+
+                    @*<div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" 
+                                type="button" id="dropdownMenuButton" 
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            More
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" 
+                               asp-controller="Post" 
+                               asp-action="Delete" 
+                               asp-route-id="@Model.Id"
+                               asp-route-returnUrl="@Context.Request.Path">Delete</a>
+                        </div>
+                    </div>*@
+                    <hr />
+                </div>
         </div>
     </div>
 </div>

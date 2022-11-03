@@ -37,7 +37,7 @@ namespace SocialNetworkGFL.Controllers
         {
             ViewBag.Notifications = "hi";
             var id = HttpContext.GetIdFromCurrentUser();
-            var posts = postService.GetUserPosts(id);
+            var posts = postService.GetUserFeed(id);
             return View(posts);
         }
 

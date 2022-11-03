@@ -40,11 +40,19 @@ namespace SocialNetworkGFL.Controllers
             return View(posts);
         }
 
+        [HttpGet]
         public IActionResult UserComments()
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
             var comments = postService.UserComments(currentUserId);
             return View(comments);
         }
+
+        //[HttpGet]
+        //public IActionResult Delete(string id, string returnUrl)
+        //{
+        //    postService.Delete(id);
+        //    return LocalRedirect(returnUrl);
+        //}
     }
 }
