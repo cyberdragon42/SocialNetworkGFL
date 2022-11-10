@@ -13,13 +13,11 @@ namespace Domain.Models
         public Guid AvatarId { get; set; }
         public string AvatarExtension { get; set; }
 
-        public ICollection<Post> Posts { get; set; }
-        public ICollection<Like> Likes { get; set; }
-        public ICollection<Subscription> Followers { get; set; }
-        public ICollection<Subscription> Followings { get; set; }
-        public ICollection<Comment> Comments { get; set; }
-        public ICollection<Notification> Notifications { get; set; }
-        //public Avatar Avatar { get; set; }
-        //public string AvatarId { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Like> Likes { get; set; }
+        public virtual ICollection<Subscription> Followers { get; set; }
+        public virtual ICollection<Subscription> Followings { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }

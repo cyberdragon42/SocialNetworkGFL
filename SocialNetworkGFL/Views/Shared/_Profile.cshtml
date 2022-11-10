@@ -19,19 +19,20 @@
        asp-action="Index" asp-route-id="@Model.Id">@Model.UserName</a>
     @if (!@Model.IsFollowed)
     {
-        <button class="btn btn-primary" id="followBtn" data-userId="@Model.Id">
-            <a asp-controller="Profile" class="textLink"
+            <a asp-controller="Profile" class="textLink btn btn-primary" 
+               role="button"
+               id="followBtn" data-userId="@Model.Id"
                asp-route-returnUrl="@Context.Request.Path"
-               asp-action="Follow" asp-route-id=@Model.Id>@Localizer["Follow"]</a>
-        </button>
+               asp-action="Follow" asp-route-id=@Model.Id>@Localizer["Follow"]
+            </a>
     }
     else
     {
-        <button class="btn btn-light border" id="unfollowBtn" data-userId="@Model.Id">
-            <a asp-controller="Profile" class="textLink"
+            <a asp-controller="Profile" class="textLink btn btn-light border"
+               id="unfollowBtn" data-userId="@Model.Id"
                asp-route-returnUrl="@Context.Request.Path"
+               role="button"
                asp-action="Unfollow" asp-route-id=@Model.Id>@Localizer["Unfollow"]</a>
-        </button>
     }
     <hr />
 </div>

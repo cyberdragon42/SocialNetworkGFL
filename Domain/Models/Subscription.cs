@@ -9,9 +9,9 @@ namespace Domain.Models
     public class Subscription
     {
         public string FollowerId { get; set; }
-        public User Follower { get; set; }
+        public virtual User Follower { get; set; }
 
         public string FollowingId { get; set; }
-        public User Following { get; set; }
+        public virtual User Following { get; set; }
     }
 }

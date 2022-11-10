@@ -36,21 +36,19 @@
     {
         @if (!Model.IsFollowed)
         {
-            <button class="btn btn-primary">
-                <a asp-controller="Profile" class="textLink"
+                <a asp-controller="Profile" class="textLink btn btn-primary"
                    asp-route-returnUrl="@Context.Request.Path"
+                   role="button"
                    asp-action="Follow" asp-route-id=@Model.Id>
                     @Localizer["Follow"]
                 </a>
-            </button>
         }
         else
         {
-            <button class="btn btn-light">
-                <a asp-controller="Profile" class="textLink"
+                <a asp-controller="Profile" class="textLink btn btn-light"
                    asp-route-returnUrl="@Context.Request.Path"
+                   role="button"
                    asp-action="Unfollow" asp-route-id=@Model.Id>@Localizer["Unfollow"]</a>
-            </button>
         }
     }
     <hr />

@@ -12,11 +12,11 @@ namespace Domain.Context
 {
     public class SocialNetworkContext : IdentityDbContext<User>
     {
-        public DbSet<Post> Posts { get; set; }
-        public DbSet<Like> Likes { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<Subscription> Subscriptions { get; set; }
-        public DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<Post> Posts { get; set; }
+        public virtual DbSet<Like> Likes { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<Subscription> Subscriptions { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
 
         public SocialNetworkContext(DbContextOptions<SocialNetworkContext> options)
         : base(options) { }

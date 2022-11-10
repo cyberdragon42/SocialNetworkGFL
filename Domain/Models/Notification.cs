@@ -13,7 +13,7 @@ namespace Domain.Models
         public DateTime Date { get; set; }
         public bool IsReceived { get; set; }
 
-        public User Reciever { get; set; }
+        public virtual User Reciever { get; set; }
         public string RecieverId { get; set; }
     }
 }
