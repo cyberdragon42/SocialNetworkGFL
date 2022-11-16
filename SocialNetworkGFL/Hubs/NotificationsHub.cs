@@ -27,8 +27,8 @@ namespace SocialNetworkGFL.Hubs
         public async Task SendNotification(string message, string userId)
         {
             var currentUserId = Context.GetHttpContext().GetIdFromCurrentUser();
-            var currentUser = userService.GetUser(currentUserId);
-            var receiver = userService.GetUser(userId);
+            var currentUser = await userService.GetUserByIdAsync(currentUserId);
+            var receiver = await userService.GetUserByIdAsync(userId);
 
             var notificationForReceiver = new Notification()
             {

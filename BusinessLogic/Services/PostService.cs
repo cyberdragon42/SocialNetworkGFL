@@ -22,30 +22,30 @@ namespace BusinessLogic.Services
             this.mapper = mapper;
         }
 
-        public void CreatePost(Post post)
+        public async Task CreatePostAsync(Post post)
         {
-            context.Posts.Add(post);
-            context.SaveChanges();
+            await context.Posts.AddAsync(post);
+            await context.SaveChangesAsync();
         }
 
-        public void DislikePost(string postId, string currentUserId)
+        public async Task DislikePostAsync(string postId, string currentUserId)
         {
-            var like = context.Likes
+            var like = await context.Likes
                 .Where(l => l.PostId == postId && l.UserId == currentUserId)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
             context.Likes.Remove(like);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public PostModel GetPost(string postId, string currentUserId)
+        public async Task<PostModel> GetPostAsync(string postId, string currentUserId)
         {
-            var post = context.Posts
-                .Include(p=>p.User)
-                .Include(p=>p.Likes)
-                .Include(p => p.Comments.OrderBy(c=>c.Date))
-                .ThenInclude(c=>c.User)
-                .Where(p=>p.Id==postId)
-                .FirstOrDefault();
+            var post = await context.Posts
+                .Include(p => p.User)
+                .Include(p => p.Likes)
+                .Include(p => p.Comments.OrderBy(c => c.Date))
+                .ThenInclude(c => c.User)
+                .Where(p => p.Id == postId)
+                .FirstOrDefaultAsync();
 
             var postModel = mapper.Map<Post, PostModel>(post);
             postModel.isLiked = postModel.Likes.Any(l => l.UserId == currentUserId);
@@ -88,7 +88,7 @@ namespace BusinessLogic.Services
             return postModels.OrderByDescending(p => p.Date);
         }
 
-        public IEnumerable<PostModel> LikedPosts(string currentUserId)
+        public IEnumerable<PostModel> GetLikedPosts(string currentUserId)
         {
             var likedPosts = context.Posts
                 .Include(p => p.Likes)
@@ -106,7 +106,7 @@ namespace BusinessLogic.Services
             return likedPostModels;
         }
 
-        public void LikePost(string postId, string currentUserId)
+        public async Task LikePostAsync(string postId, string currentUserId)
         {
             var like = new Like
             {
@@ -114,26 +114,16 @@ namespace BusinessLogic.Services
                 PostId = postId
             };
 
-            context.Likes.Add(like);
-            context.SaveChanges();
+            await context.Likes.AddAsync(like);
+            await context.SaveChangesAsync();
         }
 
-        public IEnumerable<Comment> UserComments(string currentUserId)
-        {
-            var comments = context.Comments
-                .Where(c => c.UserId == currentUserId)
-                .Include(c=>c.User)
-                .Include(c => c.Post);
-
-            return comments;
-        }
-
-        public void Delete(string postId)
+        public async Task DeletePostAsync(string postId)
         {
             var post = context.Posts
                 .First(p => p.Id == postId);
             context.Posts.Remove(post);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }

@@ -23,7 +23,7 @@ namespace BusinessLogic.Services
             this.mapper = mapper;
         }
 
-        public async Task FollowUser(string currentUserId, string userId)
+        public async Task FollowUserAsync(string currentUserId, string userId)
         {
             var subscription = new Subscription
             {
@@ -35,7 +35,7 @@ namespace BusinessLogic.Services
             await context.SaveChangesAsync();
         }
 
-        public async Task UnfollowUser(string currentUserId, string userId)
+        public async Task UnfollowUserAsync(string currentUserId, string userId)
         {
             var subscription = context.Subscriptions
                 .Where(s => s.FollowerId == currentUserId && s.FollowingId == userId)
@@ -44,7 +44,7 @@ namespace BusinessLogic.Services
             await context.SaveChangesAsync();
         }
 
-        public async Task<ProfileModel> GetProfile(string userId, string currentUserId)
+        public async Task<ProfileModel> GetProfileAsync(string userId, string currentUserId)
         {
             var user = context.Users.
                 Where(u => u.Id == userId)
@@ -71,12 +71,12 @@ namespace BusinessLogic.Services
                 profile.IsOwnProfile = true;
             }
 
-            if(await IsFollower(currentUserId, userId))
+            if(await IsFollowerAsync(currentUserId, userId))
             {
                 profile.IsFollower = true;
             }
 
-            if(await IsFollowing(currentUserId, userId))
+            if(await IsFollowingAsync(currentUserId, userId))
             {
                 profile.IsFollowed = true;
             }
@@ -84,18 +84,18 @@ namespace BusinessLogic.Services
             return profile;
         }
 
-        public User GetUser(string userId)
+        public async Task<User> GetUserByIdAsync(string userId)
         {
-            var user = context.Users.
+            var user = await context.Users.
                 Where(u => u.Id == userId)
                 .Include(u=>u.Posts.OrderByDescending(p => p.Date))
                 .ThenInclude(p=>p.Comments)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             return user;
         }
 
-        public async Task<IEnumerable<ProfileModel>> GetUserFollows(string currentUserId)
+        public async Task<IEnumerable<ProfileModel>> GetUserFollowsAsync(string currentUserId)
         {
             var follows = await context.Subscriptions
                 .Include(s => s.Following)
@@ -105,14 +105,14 @@ namespace BusinessLogic.Services
 
             for(var i=0; i < follows.Count; ++i)
             {
-                follows[i].IsFollower = await IsFollower(currentUserId, follows[i].Id);
+                follows[i].IsFollower = await IsFollowerAsync(currentUserId, follows[i].Id);
                 follows[i].IsFollowed = true;
             }
 
             return follows;
         }
 
-        public async Task<IEnumerable<ProfileModel>> GetUserFollowers(string currentUserId)
+        public async Task<IEnumerable<ProfileModel>> GetUserFollowersAsync(string currentUserId)
         {
             var followers = await context.Subscriptions
                 .Include(s => s.Follower)
@@ -123,13 +123,13 @@ namespace BusinessLogic.Services
             for (var i = 0; i < followers.Count; ++i)
             {
                 followers[i].IsFollower = true;
-                followers[i].IsFollowed = await IsFollowing(currentUserId, followers[i].Id);
+                followers[i].IsFollowed = await IsFollowingAsync(currentUserId, followers[i].Id);
             }
 
             return followers;
         }
 
-        public async Task<IEnumerable<ProfileModel>> FindUsers(string keyword, string currentUserId)
+        public async Task<IEnumerable<ProfileModel>> FindUsersAsync(string keyword, string currentUserId)
         {
             var users = await context.Users.Where(
                 u => u.Name.Contains(keyword) || u.UserName.Contains(keyword))
@@ -138,8 +138,8 @@ namespace BusinessLogic.Services
 
             for (var i = 0; i < users.Count; ++i)
             {
-                users[i].IsFollower = await IsFollower(currentUserId, users[i].Id);
-                users[i].IsFollowed = await IsFollowing(currentUserId, users[i].Id);
+                users[i].IsFollower = await IsFollowerAsync(currentUserId, users[i].Id);
+                users[i].IsFollowed = await IsFollowingAsync(currentUserId, users[i].Id);
                 users[i].IsOwnProfile = users[i].Id == currentUserId;
             }
 
@@ -152,7 +152,7 @@ namespace BusinessLogic.Services
         /// <param name="currentUserId"></param>
         /// <param name="followerId"></param>
         /// <returns></returns>
-        protected async Task<bool> IsFollower(string currentUserId, string followerId)
+        protected async Task<bool> IsFollowerAsync(string currentUserId, string followerId)
         {
             return await context.Subscriptions
                 .AnyAsync(s => s.FollowerId == followerId && s.FollowingId == currentUserId);
@@ -165,7 +165,7 @@ namespace BusinessLogic.Services
         /// <param name="currentUserId"></param>
         /// <param name="followId"></param>
         /// <returns></returns>
-        protected async Task<bool> IsFollowing(string currentUserId, string followId)
+        protected async Task<bool> IsFollowingAsync(string currentUserId, string followId)
         {
            return await context.Subscriptions
                 .AnyAsync(s => s.FollowerId == currentUserId && s.FollowingId == followId);

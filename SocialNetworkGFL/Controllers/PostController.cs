@@ -11,24 +11,26 @@ namespace SocialNetworkGFL.Controllers
     public class PostController : Controller
     {
         private readonly IPostService postService;
-        public PostController(IPostService postService)
+        private readonly ICommentService commentService;
+        public PostController(IPostService postService, ICommentService commentService)
         {
             this.postService = postService;
+            this.commentService = commentService;
         }
 
         [HttpGet]
-        public IActionResult LikePost(string postId, string returnUrl)
+        public async Task<IActionResult> LikePost(string postId, string returnUrl)
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
-            postService.LikePost(postId, currentUserId);
+            await postService.LikePostAsync(postId, currentUserId);
             return LocalRedirect(returnUrl);
         }
 
         [HttpGet]
-        public IActionResult DislikePost(string postId, string returnUrl)
+        public async Task<IActionResult> DislikePost(string postId, string returnUrl)
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
-            postService.DislikePost(postId, currentUserId);
+            await postService.DislikePostAsync(postId, currentUserId);
             return LocalRedirect(returnUrl);
         }
 
@@ -36,15 +38,15 @@ namespace SocialNetworkGFL.Controllers
         public IActionResult LikedPosts()
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
-            var posts = postService.LikedPosts(currentUserId);
+            var posts = postService.GetLikedPosts(currentUserId);
             return View(posts);
         }
 
         [HttpGet]
-        public IActionResult UserComments()
+        public async Task<IActionResult> UserComments()
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
-            var comments = postService.UserComments(currentUserId);
+            var comments = await commentService.GetUserCommentsAsync(currentUserId);
             return View(comments);
         }
 

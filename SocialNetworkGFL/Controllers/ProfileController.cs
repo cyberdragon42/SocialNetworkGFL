@@ -51,7 +51,7 @@ namespace SocialNetworkGFL.Controllers
                 id = currentUserId;
             }
 
-            var profile = await userService.GetProfile(id,currentUserId);
+            var profile = await userService.GetProfileAsync(id,currentUserId);
             return View(profile);
         }
 
@@ -59,7 +59,7 @@ namespace SocialNetworkGFL.Controllers
         public async Task<ActionResult> UserFollows()
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
-            var follows = await userService.GetUserFollows(currentUserId);
+            var follows = await userService.GetUserFollowsAsync(currentUserId);
             return View(follows);
         }
 
@@ -67,7 +67,7 @@ namespace SocialNetworkGFL.Controllers
         public async Task<ActionResult> UserFollowers()
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
-            var followers = await userService.GetUserFollowers(currentUserId);
+            var followers = await userService.GetUserFollowersAsync(currentUserId);
             return View(followers);
         }
 
@@ -75,7 +75,7 @@ namespace SocialNetworkGFL.Controllers
         public async Task<ActionResult> Follow(string id, string returnUrl)
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
-            await userService.FollowUser(currentUserId, id);
+            await userService.FollowUserAsync(currentUserId, id);
             return LocalRedirect(returnUrl);
         }
 
@@ -83,21 +83,21 @@ namespace SocialNetworkGFL.Controllers
         public async Task<ActionResult> Unfollow(string id, string returnUrl)
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
-            await userService.UnfollowUser(currentUserId, id);
+            await userService.UnfollowUserAsync(currentUserId, id);
             return LocalRedirect(returnUrl);
         }
 
 
         [HttpGet]
-        public ActionResult Post(string id)
+        public async Task<ActionResult> Post(string id)
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
-            var post = postService.GetPost(id, currentUserId);
+            var post = await postService.GetPostAsync(id, currentUserId);
             return View(post);
         }
 
         [HttpPost]
-        public ActionResult Post(string id, [Bind("Date,Content,UserId")] Comment comment)
+        public async Task<ActionResult> Post(string id, [Bind("Date,Content,UserId")] Comment comment)
         {
             if (ModelState.IsValid)
             {
@@ -105,7 +105,7 @@ namespace SocialNetworkGFL.Controllers
                 comment.PostId = id;
                 comment.UserId = HttpContext.GetIdFromCurrentUser();
 
-                commentService.AddComment(comment);
+                await commentService.AddCommentAsync(comment);
                 return RedirectToAction("Post", new { id });
             }
 
@@ -123,7 +123,7 @@ namespace SocialNetworkGFL.Controllers
         public async Task<ActionResult> Edit()
         {
             var id = HttpContext.GetIdFromCurrentUser();
-            var profile = await userService.GetProfile(id, id);
+            var profile = await userService.GetProfileAsync(id, id);
             return View(profile);
         }
 

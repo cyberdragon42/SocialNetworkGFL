@@ -10,14 +10,12 @@ namespace BusinessLogic.Interfaces
 {
     public interface IPostService
     {
-        public void CreatePost(Post post);
-
+        Task CreatePostAsync(Post post);
         IEnumerable<PostModel> GetUserFeed(string currentUserId);
-        PostModel GetPost(string postId, string currentUserId);
-        void LikePost(string postId, string returnUrl);
-        void DislikePost(string postId, string returnUrl);
-        IEnumerable<PostModel> LikedPosts(string currentUserId);
-        IEnumerable<Comment> UserComments(string currentUserId);
-        public void Delete(string postId);
+        Task<PostModel> GetPostAsync(string postId, string currentUserId);
+        Task LikePostAsync(string postId, string returnUrl);
+        Task DislikePostAsync(string postId, string returnUrl);
+        IEnumerable<PostModel> GetLikedPosts(string currentUserId);
+        Task DeletePostAsync(string postId);
     }
 }

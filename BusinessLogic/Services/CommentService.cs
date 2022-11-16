@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Interfaces;
 using Domain.Context;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,21 @@ namespace BusinessLogic.Services
             this.context = context;
         }
 
-        public void AddComment(Comment comment)
+        public async Task AddCommentAsync(Comment comment)
         {
-            context.Comments.Add(comment);
-            context.SaveChanges();
+            await context.Comments.AddAsync(comment);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Comment>> GetUserCommentsAsync(string currentUserId)
+        {
+            var comments = await context.Comments
+                .Where(c => c.UserId == currentUserId)
+                .Include(c => c.User)
+                .Include(c => c.Post)
+                .ToListAsync();
+
+            return comments;
         }
     }
 }

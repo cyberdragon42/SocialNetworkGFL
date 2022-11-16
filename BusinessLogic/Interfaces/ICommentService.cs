@@ -9,6 +9,7 @@ namespace BusinessLogic.Interfaces
 {
     public interface ICommentService
     {
-        public void AddComment(Comment comment);
+        Task AddCommentAsync(Comment comment);
+        Task<IEnumerable<Comment>> GetUserCommentsAsync(string currentUserId);
     }
 }

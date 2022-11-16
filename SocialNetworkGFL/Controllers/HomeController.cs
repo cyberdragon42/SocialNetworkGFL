@@ -43,15 +43,14 @@ namespace SocialNetworkGFL.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Index([Bind("Content")] Post post)
+        public async Task<IActionResult> Index([Bind("Content")] Post post)
         {
             if (ModelState.IsValid)
             {
                 var id = HttpContext.GetIdFromCurrentUser();
                 post.UserId = id;
                 post.Date = DateTime.UtcNow;
-
-                postService.CreatePost(post);
+                await postService.CreatePostAsync(post);
             }
 
             return RedirectToAction("Index");
@@ -61,7 +60,7 @@ namespace SocialNetworkGFL.Controllers
         public async Task<IActionResult> Search(string keyword)
         {
             var id = HttpContext.GetIdFromCurrentUser();
-            var users = await userService.FindUsers(keyword, id);
+            var users = await userService.FindUsersAsync(keyword, id);
             var model = new SearchModel
             {
                 Keyword=keyword,

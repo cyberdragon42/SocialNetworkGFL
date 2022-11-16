@@ -9,9 +9,8 @@ namespace BusinessLogic.Interfaces
 {
     public interface INotificationService
     {
-        public Task CreateNotification(Notification notification);
-        public Task<IEnumerable<Notification>> GetUserNotifications(string userId);
-        public Task<int> GetUnreadNotificationsCount(string userId);
-
+        Task CreateNotification(Notification notification);
+        Task<IEnumerable<Notification>> GetUserNotifications(string userId);
+        Task<int> GetUnreadNotificationsCount(string userId);
     }
 }
