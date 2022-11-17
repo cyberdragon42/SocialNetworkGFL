@@ -42,7 +42,7 @@ namespace SocialNetworkGFL.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Index(string id)
+        public async Task<IActionResult> Index(string id)
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
 
@@ -56,7 +56,7 @@ namespace SocialNetworkGFL.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> UserFollows()
+        public async Task<IActionResult> UserFollows()
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
             var follows = await userService.GetUserFollowsAsync(currentUserId);
@@ -64,7 +64,7 @@ namespace SocialNetworkGFL.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> UserFollowers()
+        public async Task<IActionResult> UserFollowers()
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
             var followers = await userService.GetUserFollowersAsync(currentUserId);
@@ -72,7 +72,7 @@ namespace SocialNetworkGFL.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Follow(string id, string returnUrl)
+        public async Task<IActionResult> Follow(string id, string returnUrl)
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
             await userService.FollowUserAsync(currentUserId, id);
@@ -80,7 +80,7 @@ namespace SocialNetworkGFL.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Unfollow(string id, string returnUrl)
+        public async Task<IActionResult> Unfollow(string id, string returnUrl)
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
             await userService.UnfollowUserAsync(currentUserId, id);
@@ -89,7 +89,7 @@ namespace SocialNetworkGFL.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult> Post(string id)
+        public async Task<IActionResult> Post(string id)
         {
             var currentUserId = HttpContext.GetIdFromCurrentUser();
             var post = await postService.GetPostAsync(id, currentUserId);
@@ -97,22 +97,22 @@ namespace SocialNetworkGFL.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(string id, [Bind("Date,Content,UserId")] Comment comment)
+        public async Task<IActionResult> Post(string id, CreateCommentDto commentDto)
         {
             if (ModelState.IsValid)
             {
-                comment.Date = DateTime.UtcNow;
-                comment.PostId = id;
-                comment.UserId = HttpContext.GetIdFromCurrentUser();
+                commentDto.Date = DateTime.UtcNow;
+                commentDto.PostId = id;
+                commentDto.UserId = HttpContext.GetIdFromCurrentUser();
 
-                await commentService.AddCommentAsync(comment);
+                await commentService.AddCommentAsync(commentDto);
                 return RedirectToAction("Post", new { id });
             }
 
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> Notifications()
+        public async Task<IActionResult> Notifications()
         {
             var id = HttpContext.GetIdFromCurrentUser();
             var notifications = await notificationService.GetUserNotifications(id);
@@ -120,7 +120,7 @@ namespace SocialNetworkGFL.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Edit()
+        public async Task<IActionResult> Edit()
         {
             var id = HttpContext.GetIdFromCurrentUser();
             var profile = await userService.GetProfileAsync(id, id);
@@ -128,7 +128,7 @@ namespace SocialNetworkGFL.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit([Bind("Name, UserName")] ProfileModel profile, IFormFile avatar)
+        public async Task<IActionResult> Edit([Bind("Name, UserName")] ProfileDto profile, IFormFile avatar)
         {
             if (ModelState.IsValid)
             {

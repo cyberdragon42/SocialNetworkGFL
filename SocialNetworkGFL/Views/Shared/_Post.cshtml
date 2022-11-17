@@ -1,4 +1,4 @@
-﻿@model BusinessLogic.Dto.PostModel
+﻿@model BusinessLogic.Dto.ExtendedPostDto
 @using Microsoft.AspNetCore.Mvc.Localization
 @{ 
     var avatar = Model.User.AvatarId + Model.User.AvatarExtension;
@@ -24,7 +24,7 @@
                 </a>
                 <div class="postStats">
                     <span>
-                        @if (Model.isLiked)
+                        @if (Model.IsLiked)
                         {
                             <a asp-action="DislikePost" class="textLink"
                                asp-controller="Post"

@@ -13,7 +13,8 @@ namespace BusinessLogic.Automapping
     {
         public PostProfile()
         {
-            CreateMap<Post, PostModel>();
+            CreateMap<Post, ExtendedPostDto>();
+            CreateMap<CreatePostDto, Post>();
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿@model IEnumerable<Domain.Models.Comment>
+﻿@model IEnumerable<BusinessLogic.Dto.UsersCommentDto>
 
 @foreach (var item in Model)
 {
     <a class="badge badge-primary"
        asp-controller="Profile"
-       asp-action="Post" asp-route-id="@item.PostId">
+       asp-action="Post" asp-route-id="@item.Post.Id">
         go to post
     </a>
     <div>

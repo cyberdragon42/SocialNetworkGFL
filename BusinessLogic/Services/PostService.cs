@@ -22,8 +22,9 @@ namespace BusinessLogic.Services
             this.mapper = mapper;
         }
 
-        public async Task CreatePostAsync(Post post)
+        public async Task CreatePostAsync(CreatePostDto postDto)
         {
+            var post = mapper.Map<CreatePostDto, Post>(postDto);
             await context.Posts.AddAsync(post);
             await context.SaveChangesAsync();
         }
@@ -37,7 +38,7 @@ namespace BusinessLogic.Services
             await context.SaveChangesAsync();
         }
 
-        public async Task<PostModel> GetPostAsync(string postId, string currentUserId)
+        public async Task<ExtendedPostDto> GetPostAsync(string postId, string currentUserId)
         {
             var post = await context.Posts
                 .Include(p => p.User)
@@ -47,13 +48,13 @@ namespace BusinessLogic.Services
                 .Where(p => p.Id == postId)
                 .FirstOrDefaultAsync();
 
-            var postModel = mapper.Map<Post, PostModel>(post);
-            postModel.isLiked = postModel.Likes.Any(l => l.UserId == currentUserId);
+            var postModel = mapper.Map<Post, ExtendedPostDto>(post);
+            postModel.IsLiked = postModel.Likes.Any(l => l.UserId == currentUserId);
 
             return postModel;
         }
 
-        public IEnumerable<PostModel> GetUserFeed(string currentUserId)
+        public IEnumerable<ExtendedPostDto> GetUserFeed(string currentUserId)
         {
             var user = context.Users
                 .Include(u=>u.Followings)
@@ -77,18 +78,18 @@ namespace BusinessLogic.Services
                 followings.SelectMany(f=>f.Posts
                 ));
 
-            var postModels = new List<PostModel>();
+            var postModels = new List<ExtendedPostDto>();
             foreach (var p in allPosts)
             {
-                var postModel = mapper.Map<Post, PostModel>(p);
-                postModel.isLiked = p.Likes.Any(l => l.UserId == currentUserId);
+                var postModel = mapper.Map<Post, ExtendedPostDto>(p);
+                postModel.IsLiked = p.Likes.Any(l => l.UserId == currentUserId);
                 postModels.Add(postModel);
             }
 
             return postModels.OrderByDescending(p => p.Date);
         }
 
-        public IEnumerable<PostModel> GetLikedPosts(string currentUserId)
+        public IEnumerable<ExtendedPostDto> GetLikedPosts(string currentUserId)
         {
             var likedPosts = context.Posts
                 .Include(p => p.Likes)
@@ -96,11 +97,11 @@ namespace BusinessLogic.Services
                 .Include(p=>p.Comments)
                 .Where(p => p.Likes.Any(l => l.UserId == currentUserId));
 
-            var likedPostModels = new List<PostModel>();
+            var likedPostModels = new List<ExtendedPostDto>();
             foreach(var p in likedPosts)
             {
-                var postModel = mapper.Map<Post, PostModel>(p);
-                postModel.isLiked = true;
+                var postModel = mapper.Map<Post, ExtendedPostDto>(p);
+                postModel.IsLiked = true;
                 likedPostModels.Add(postModel);
             }
             return likedPostModels;

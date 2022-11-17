@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.Dto
 {
-    public class PostModel
+    public class ExtendedPostDto
     {
         public string Id { get; set; }
         public DateTime Date { get; set; }
@@ -17,7 +17,7 @@ namespace BusinessLogic.Dto
         public User User { get; set; }
 
         public ICollection<Like> Likes { get; set; }
-        public ICollection<Comment> Comments { get; set; }
-        public bool isLiked { get; set; }
+        public ICollection<UsersCommentDto> Comments { get; set; }
+        public bool IsLiked { get; set; }
     }
 }

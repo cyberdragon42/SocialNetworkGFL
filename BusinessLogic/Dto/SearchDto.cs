@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.Dto
 {
-    public class SearchModel
+    public class SearchDto
     {
         public string Keyword { get; set; }
-        public IEnumerable<ProfileModel> Users { get; set; }
+        public IEnumerable<ProfileDto> Users { get; set; }
     }
 }

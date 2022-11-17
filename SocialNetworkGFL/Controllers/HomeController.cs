@@ -35,7 +35,6 @@ namespace SocialNetworkGFL.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            ViewBag.Notifications = "hi";
             var id = HttpContext.GetIdFromCurrentUser();
             var posts = postService.GetUserFeed(id);
             return View(posts);
@@ -43,16 +42,15 @@ namespace SocialNetworkGFL.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Index([Bind("Content")] Post post)
+        public async Task<IActionResult> Index(CreatePostDto postDto)
         {
             if (ModelState.IsValid)
             {
                 var id = HttpContext.GetIdFromCurrentUser();
-                post.UserId = id;
-                post.Date = DateTime.UtcNow;
-                await postService.CreatePostAsync(post);
+                postDto.UserId = id;
+                postDto.Date = DateTime.UtcNow;
+                await postService.CreatePostAsync(postDto);
             }
-
             return RedirectToAction("Index");
         }
 
@@ -61,7 +59,7 @@ namespace SocialNetworkGFL.Controllers
         {
             var id = HttpContext.GetIdFromCurrentUser();
             var users = await userService.FindUsersAsync(keyword, id);
-            var model = new SearchModel
+            var model = new SearchDto
             {
                 Keyword=keyword,
                 Users=users

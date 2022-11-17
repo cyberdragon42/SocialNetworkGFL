@@ -44,7 +44,7 @@ namespace BusinessLogic.Services
             await context.SaveChangesAsync();
         }
 
-        public async Task<ProfileModel> GetProfileAsync(string userId, string currentUserId)
+        public async Task<ProfileDto> GetProfileAsync(string userId, string currentUserId)
         {
             var user = context.Users.
                 Where(u => u.Id == userId)
@@ -54,13 +54,13 @@ namespace BusinessLogic.Services
                 .Include(u=>u.Followings)
                 .FirstOrDefault();
 
-            var profile = mapper.Map<User, ProfileModel>(user);
+            var profile = mapper.Map<User, ProfileDto>(user);
 
-            var postModels = new List<PostModel>();
+            var postModels = new List<ExtendedPostDto>();
             foreach (var p in user.Posts)
             {
-                var postModel = mapper.Map<Post, PostModel>(p);
-                postModel.isLiked = p.Likes.Any(l => l.UserId == currentUserId);
+                var postModel = mapper.Map<Post, ExtendedPostDto>(p);
+                postModel.IsLiked = p.Likes.Any(l => l.UserId == currentUserId);
                 postModels.Add(postModel);
             }
 
@@ -95,12 +95,12 @@ namespace BusinessLogic.Services
             return user;
         }
 
-        public async Task<IEnumerable<ProfileModel>> GetUserFollowsAsync(string currentUserId)
+        public async Task<IEnumerable<ProfileDto>> GetUserFollowsAsync(string currentUserId)
         {
             var follows = await context.Subscriptions
                 .Include(s => s.Following)
                 .Where(s => s.FollowerId == currentUserId)
-                .Select(s=> mapper.Map <User, ProfileModel>(s.Following))
+                .Select(s=> mapper.Map <User, ProfileDto>(s.Following))
                 .ToListAsync();
 
             for(var i=0; i < follows.Count; ++i)
@@ -112,12 +112,12 @@ namespace BusinessLogic.Services
             return follows;
         }
 
-        public async Task<IEnumerable<ProfileModel>> GetUserFollowersAsync(string currentUserId)
+        public async Task<IEnumerable<ProfileDto>> GetUserFollowersAsync(string currentUserId)
         {
             var followers = await context.Subscriptions
                 .Include(s => s.Follower)
                 .Where(s => s.FollowingId == currentUserId)
-                .Select(s => mapper.Map<User, ProfileModel>(s.Follower))
+                .Select(s => mapper.Map<User, ProfileDto>(s.Follower))
                 .ToListAsync();
 
             for (var i = 0; i < followers.Count; ++i)
@@ -129,11 +129,11 @@ namespace BusinessLogic.Services
             return followers;
         }
 
-        public async Task<IEnumerable<ProfileModel>> FindUsersAsync(string keyword, string currentUserId)
+        public async Task<IEnumerable<ProfileDto>> FindUsersAsync(string keyword, string currentUserId)
         {
             var users = await context.Users.Where(
                 u => u.Name.Contains(keyword) || u.UserName.Contains(keyword))
-                .Select(user=> mapper.Map<User, ProfileModel>(user))
+                .Select(user=> mapper.Map<User, ProfileDto>(user))
                 .ToListAsync();
 
             for (var i = 0; i < users.Count; ++i)

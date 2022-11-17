@@ -11,7 +11,7 @@ namespace SocialNetworkGFL.Controllers
     public class LocalizationController : Controller
     {
         [HttpGet]
-        public ActionResult Index()
+        public IActionResult Index()
         {
             return View();
         }
@@ -26,7 +26,5 @@ namespace SocialNetworkGFL.Controllers
 
             return LocalRedirect(returnUrl);
         }
-
-
     }
 }

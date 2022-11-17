@@ -28,7 +28,7 @@ namespace SocialNetworkGFL.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Register(
-            [Bind("Email,UserName,Name,Password,PasswordConfirmation")] RegistrationModel registerModel)
+            RegistrationModel registerModel)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace SocialNetworkGFL.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([Bind("Username,Password")] LoginModel loginModel)
+        public async Task<IActionResult> Login(LoginModel loginModel)
         {
             if (ModelState.IsValid)
             {

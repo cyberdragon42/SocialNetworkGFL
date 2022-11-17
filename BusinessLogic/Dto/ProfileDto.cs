@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BusinessLogic.Dto
 {
-    public class ProfileModel
+    public class ProfileDto
     {
         [Required]
         public string UserName { get; set; }
@@ -17,7 +17,7 @@ namespace BusinessLogic.Dto
         public Guid AvatarId { get; set; }
         public string AvatarExtension { get; set; }
         public string Id { get; set; }
-        public IEnumerable<PostModel> Posts { get; set; }
+        public IEnumerable<ExtendedPostDto> Posts { get; set; }
 
         public bool IsFollower { get; set; }
         public bool IsFollowed { get; set; }

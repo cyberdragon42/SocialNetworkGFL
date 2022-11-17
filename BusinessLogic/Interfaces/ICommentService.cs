@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using BusinessLogic.Dto;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace BusinessLogic.Interfaces
 {
     public interface ICommentService
     {
-        Task AddCommentAsync(Comment comment);
-        Task<IEnumerable<Comment>> GetUserCommentsAsync(string currentUserId);
+        Task AddCommentAsync(CreateCommentDto commentDto);
+        Task<IEnumerable<UsersCommentDto>> GetUserCommentsAsync(string currentUserId);
     }
 }

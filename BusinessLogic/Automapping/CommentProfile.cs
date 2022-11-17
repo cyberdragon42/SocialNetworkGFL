@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.Automapping
 {
-    public class UserProfile : Profile
+    public class CommentProfile: Profile
     {
-        public UserProfile()
+        public CommentProfile()
         {
-            CreateMap<User, ProfileDto>();
+            CreateMap<CreateCommentDto, Comment>();
+            CreateMap<Comment, UsersCommentDto>();
         }
     }
 }
