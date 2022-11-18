@@ -37,9 +37,9 @@ namespace BusinessLogic.Services
                 .Include(c => c.Post)
                 .ToListAsync();
 
-            var newComments = mapper.Map<IEnumerable<Comment>, IEnumerable<UsersCommentDto>>(comments);
+            var commentDtos = mapper.Map<IEnumerable<Comment>, IEnumerable<UsersCommentDto>>(comments);
 
-            return newComments;
+            return commentDtos;
         }
     }
 }

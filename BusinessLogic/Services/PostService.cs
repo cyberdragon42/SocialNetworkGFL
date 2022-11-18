@@ -34,8 +34,12 @@ namespace BusinessLogic.Services
             var like = await context.Likes
                 .Where(l => l.PostId == postId && l.UserId == currentUserId)
                 .FirstOrDefaultAsync();
-            context.Likes.Remove(like);
-            await context.SaveChangesAsync();
+            if (like != null)
+            {
+                context.Likes.Remove(like);
+                await context.SaveChangesAsync();
+            }
+            
         }
 
         public async Task<ExtendedPostDto> GetPostAsync(string postId, string currentUserId)
@@ -109,14 +113,17 @@ namespace BusinessLogic.Services
 
         public async Task LikePostAsync(string postId, string currentUserId)
         {
-            var like = new Like
+            if(!context.Likes.Any(l=>l.UserId==currentUserId&&l.PostId==postId))
             {
-                UserId = currentUserId,
-                PostId = postId
-            };
+                var like = new Like
+                {
+                    UserId = currentUserId,
+                    PostId = postId
+                };
 
-            await context.Likes.AddAsync(like);
-            await context.SaveChangesAsync();
+                await context.Likes.AddAsync(like);
+                await context.SaveChangesAsync();
+            }
         }
 
         public async Task DeletePostAsync(string postId)
